@@ -54,6 +54,7 @@ libmemcached                            plugin_output_directory DAEMON_MEMCACHED
 innodb_engine      			plugin_output_directory INNODB_ENGINE
 validate_password  			plugin_output_directory VALIDATE_PASSWORD validate_password
 rewrite_example    			plugin_output_directory REWRITE_EXAMPLE
+prototype2_rewrite          plugin_output_directory PROTOTYPE2_REWRITE
 lundgren    			    plugin_output_directory LUNDGREN
 ddl_rewriter                plugin_output_directory DDL_REWRITER
 rewriter           			plugin_output_directory REWRITER
