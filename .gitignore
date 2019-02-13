@@ -2741,3 +2741,7 @@ TAGS_sorted_by_file
 
 # googletest files
 source_downloads
+
+# Emacs swap files
+*~
+\#*\#
