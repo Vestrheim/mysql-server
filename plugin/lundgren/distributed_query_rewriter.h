@@ -39,6 +39,7 @@ struct L_Item {
 
 struct L_Table {
   std::string name;
+  std::string interim_name;
 };
 
 // struct L_Query {
@@ -136,7 +137,6 @@ static Distributed_query *make_distributed_query(MYSQL_THD thd) {
           f++;
         while (f != fields.end()) {
 
-          // if (strncmp(f->sql.c_str(), "=", 1) == 0) {
           if (f->sql.find("=") != std::string::npos) {
             where_clause += f->sql;
 
@@ -180,26 +180,28 @@ static Distributed_query *make_distributed_query(MYSQL_THD thd) {
       }
 
       std::string from_table = "FROM " + std::string(table.name);
-      std::string interim_table_name = random_string(30);
+      table.interim_name = random_string(30);
 
       std::string pqs = std::string(partition_query_string);
 
-      pqs += from_table + " WHERE " + where_clause;
-      if (is_join) {
+      pqs += from_table;
 
-      } else {
-        final_query_string += "FROM " + interim_table_name;
-      }
+      if (where_clause.length() > 0)
+        pqs += " WHERE " + where_clause;
+
       for (std::vector<Partition>::iterator p = partitions->begin();
           p != partitions->end(); ++p) {
-        Partition_query pq = {pqs, interim_table_name, p->node};
+        Partition_query pq = {pqs, table.interim_name, p->node};
         partition_queries->push_back(pq);
       }
     }
 
-    // if (is_join) {
-    //   // add join condition
-    // }
+    if (is_join) {
+      final_query_string += "FROM " + tables[0].interim_name + " JOIN " + tables[1].interim_name + " ON " + where_clause;
+
+    } else {
+      final_query_string += "FROM " + tables[0].interim_name;
+    }
 
     Distributed_query *dq = new Distributed_query();
 
