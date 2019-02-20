@@ -136,6 +136,7 @@ static Distributed_query *make_distributed_query(MYSQL_THD thd) {
           f++;
         while (f != fields.end()) {
 
+          // if (strncmp(f->sql.c_str(), "=", 1) == 0) {
           if (f->sql.find("=") != std::string::npos) {
             where_clause += f->sql;
 
@@ -183,11 +184,7 @@ static Distributed_query *make_distributed_query(MYSQL_THD thd) {
 
       std::string pqs = std::string(partition_query_string);
 
-      pqs += from_table;
-
-      if (where_clause.length() > 0)
-        pqs += " WHERE " + where_clause;
-
+      pqs += from_table + " WHERE " + where_clause;
       if (is_join) {
 
       } else {
