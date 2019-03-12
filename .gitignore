@@ -2723,6 +2723,7 @@ extra/wolfssl-*
 # Allow
 !include/*/boost/geometry/*
 bld
+bld2
 
 # Vim swap files
 [._]*.s[a-v][a-z]
