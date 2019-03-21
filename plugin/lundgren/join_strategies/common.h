@@ -6,6 +6,7 @@
 
 static std::string generate_join_query_string(std::vector<L_Table> tables, std::string join_on, bool interim);
 static std::string generate_final_join_query_string(std::vector<L_Table> tables, std::string join_on);
+std::string generate_projections_string_for_partition_query(L_Table* table);
 
 static std::string generate_join_query_string(std::vector<L_Table> tables, std::string join_on, bool interim) {
 
@@ -59,8 +60,9 @@ std::string generate_projections_string_for_partition_query(L_Table* table) {
     ++p;
     if (p != table->projections.end()) proj_string += ", ";
   }
-  if (table->where_transitive_projections.size() > 0)
+  if (table->where_transitive_projections.size() > 0){
     proj_string += ", ";
+  }
   p = table->where_transitive_projections.begin();
   while (p != table->where_transitive_projections.end()) {
     proj_string += table->name + "." + *p;
@@ -71,6 +73,5 @@ std::string generate_projections_string_for_partition_query(L_Table* table) {
 
   return proj_string;
 }
-
 
 #endif  // LUNDGREN_COMMON
