@@ -2,10 +2,8 @@
 #include <string.h>
 #include <algorithm>
 #include <iostream>
-#include "plugin/lundgren/constants.h"
-#include "plugin/lundgren/distributed_query.h"
-#include "plugin/lundgren/partitions/node.h"
-#include "plugin/lundgren/partitions/partition.h"
+#include "plugin/histogram_updater/constants.h"
+#include "plugin/histogram_updater/distributed_query.h"
 #include "sql/item.h"
 #include "sql/table.h"
 

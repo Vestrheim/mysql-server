@@ -38,30 +38,41 @@
 
 #include <iostream>
 
-#include "plugin/lundgren/distributed_query_manager.h"
-#include "plugin/lundgren/distributed_query_rewriter.h"
-#include "plugin/lundgren/distributed_query.h"
-#include "plugin/lundgren/query_acceptance.h"
-#include "plugin/lundgren/join_strategies/data_to_query.h"
-#include "plugin/lundgren/join_strategies/semi_join.h"
-#include "plugin/lundgren/join_strategies/bloom_join/bloom_join.h"
-#include "plugin/lundgren/join_strategies/sort_merge/sort_merge.h"
-#include "plugin/lundgren/join_strategies/hash_redistribution.h"
-#include "plugin/lundgren/helpers.h"
+//#include "plugin/histogram_updater/distributed_query_manager.h"
+#include "plugin/histogram_updater/distributed_query_rewriter.h"
+#include "plugin/histogram_updater/distributed_query.h"
+#include "plugin/histogram_updater/query_acceptance.h"
+/*#include "plugin/histogram_updater/join_strategies/data_to_query.h"
+#include "plugin/histogram_updater/join_strategies/semi_join.h"
+#include "plugin/histogram_updater/join_strategies/bloom_join/bloom_join.h"
+#include "plugin/histogram_updater/join_strategies/sort_merge/sort_merge.h"
+#include "plugin/histogram_updater/join_strategies/hash_redistribution.h"*/
+#include "plugin/histogram_updater/helpers.h"
 
 /* instrument the memory allocation */
 #ifdef HAVE_PSI_INTERFACE
 static PSI_memory_key key_memory_lundgren;
 
 static PSI_memory_info all_rewrite_memory[] = {
-    {&key_memory_lundgren, "lundgren", 0, 0, PSI_DOCUMENT_ME}};
+    {&key_memory_lundgren, "histogram_updater", 0, 0, PSI_DOCUMENT_ME}};
 
 static int plugin_init(MYSQL_PLUGIN) {
   const char *category = "sql";
   int count;
-
   count = static_cast<int>(array_elements(all_rewrite_memory));
+
+  /*
+  MYSQL_THD thd;
   mysql_memory_register(category, all_rewrite_memory, count);
+  std::string create_table = "CREATE TABLE IF NOT EXISTS tester (\n"
+                               "    test_id INT AUTO_INCREMENT,\n"
+                               "    text VARCHAR(255) NOT NULL,\n";
+  char *init_query;
+  strncpy(init_query, create_table.c_str(), sizeof(create_table));
+  MYSQL_LEX_STRING new_query = {init_query, sizeof(init_query)};
+  mysql_parser_parse(thd, new_query, false, NULL, NULL);
+
+   */
   return 0; /* success */
 }
 #else
@@ -81,13 +92,13 @@ static int lundgren_start(MYSQL_THD thd, mysql_event_class_t event_class,
         return 0;
       }
 
-      bool is_join = detect_join(event_parse->query.str);
+      //bool is_join = detect_join(event_parse->query.str);
 
       L_Parser_info *parser_info = get_tables_from_parse_tree(thd);
 
-      Distributed_query* distributed_query;
-      
-      if (is_join) {
+      //Distributed_query* distributed_query;
+
+      /*if (is_join) {
         if (parser_info != NULL) {
           parser_info->tables.pop_back(); //hack
         }
@@ -112,40 +123,46 @@ static int lundgren_start(MYSQL_THD thd, mysql_event_class_t event_class,
           distributed_query = make_data_to_query_distributed_query(parser_info, true);
           break;
         }
-        
+
       } else {
         distributed_query = make_data_to_query_distributed_query(parser_info, false);
+      } */
+
+
+      std::string incoming_query;
+      incoming_query = event_parse->query.str;
+
+      std::cout << incoming_query << std::endl;
+
+      size_t query_length = event_parse->query.length;
+
+      std::vector<std::string> test = split(incoming_query,',');
+
+      std::vector<L_Table> table = parser_info->tables;
+
+      int type = mysql_parser_get_statement_type(thd);
+      int number_of_querys;
+      if (type != 1) {
+          number_of_querys +=1;
       }
 
+      // std::string query = "UPDATE HISTOGRAMS;";
 
-      if (distributed_query == NULL) {
-          return 0;
+
+      std::string query = "Insert into 'tester' ('text') VALUES ('"+std::to_string(number_of_querys)+"')";
+
+      std::cout << std::to_string(number_of_querys) << std::endl;
+
+      char *query_to_run;
+      strncpy(query_to_run, query.c_str(), sizeof(query));
+
+
+      if (number_of_querys % 10 == 0){
+
+          MYSQL_LEX_STRING new_query = {query_to_run, sizeof(query_to_run)};
+          mysql_parser_parse(thd, new_query, false, NULL, NULL);
       }
 
-      std::cout << distributed_query->rewritten_query << std::endl;
-
-      execute_distributed_query(distributed_query);
-
-      size_t query_length = distributed_query->rewritten_query.length();
-
-      char *rewritten_query = static_cast<char *>(my_malloc(key_memory_lundgren, query_length+1, MYF(0)));
-      memset(rewritten_query, 0, query_length+1);
-
-      // for (size_t i = 0; i < query_length; i++) {
-      //   rewritten_query[i] = distributed_query->rewritten_query[i];
-      // }
-
-      //rewritten_query[query_length] = '\0';
-
-      // sprintf(rewritten_query, "%s", distributed_query->rewritten_query.c_str());
-
-      strncpy(rewritten_query, distributed_query->rewritten_query.c_str(), query_length);
-
-      MYSQL_LEX_STRING new_query = {rewritten_query, query_length};
-
-      mysql_parser_parse(thd, new_query, false, NULL, NULL);
-
-      delete distributed_query;
 
       *((int *)event_parse->flags) |=
           (int)MYSQL_AUDIT_PARSE_REWRITE_PLUGIN_QUERY_REWRITTEN;
@@ -171,14 +188,14 @@ static struct st_mysql_audit lundgren_descriptor = {
 mysql_declare_plugin(audit_log){
     MYSQL_AUDIT_PLUGIN,   /* plugin type                   */
     &lundgren_descriptor, /* type specific descriptor      */
-    "lundgren",           /* plugin name                   */
-    "Kristian Andersen Hole & Haavard Ola Eggen", /* author */
-    "Distributed query plugin", /* description                   */
+    "histogram_updater",           /* plugin name                   */
+    "Sevre Vestrheim", /* author */
+    "Histogram updater plugin", /* description                   */
     PLUGIN_LICENSE_GPL,         /* license                       */
     plugin_init,                /* plugin initializer            */
     NULL,                       /* plugin check uninstall        */
     NULL,                       /* plugin deinitializer          */
-    0x0002,                     /* version                       */
+    0x0001,                     /* version                       */
     NULL,                       /* status variables              */
     NULL,                       /* system variables              */
     NULL,                       /* reserverd                     */
