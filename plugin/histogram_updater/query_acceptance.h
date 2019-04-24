@@ -1,6 +1,6 @@
 #include <string.h>
 #include <mysql/service_parser.h>
-#include "plugin/lundgren/constants.h"
+#include "plugin/histogram_updater/constants.h"
 
 #ifndef LUNDGREN_QUERY_ACCEPTANCE
 #define LUNDGREN_QUERY_ACCEPTANCE
@@ -14,13 +14,14 @@ static bool should_query_be_distributed(const char *query) {
 
 static bool accept_query(MYSQL_THD thd, const char *query) {
 
-    if (!should_query_be_distributed(query)) {
-        return false;
-    }
+    //if (!should_query_be_distributed(query)) {
+    //    return false;
+   //}
 
     int type = mysql_parser_get_statement_type(thd);
 
-    return (type == STATEMENT_TYPE_SELECT);
+    //We will accept all types of query's
+    return (true); // type == STATEMENT_TYPE_SELECT);
 }
 
 static bool detect_join(const char *query) {
