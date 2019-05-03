@@ -27,6 +27,7 @@
 #include <mysql/psi/mysql_memory.h>
 #include <mysql/service_mysql_alloc.h>
 #include <string.h>
+#include <mysqlx/xdevapi.h>
 
 //#include <mysql/service_command.h>
 //#include <mysql/service_parser.h>
@@ -129,18 +130,16 @@ static int lundgren_start(MYSQL_THD thd, mysql_event_class_t event_class,
       } */
 
 
-      std::string incoming_query;
-      incoming_query = event_parse->query.str;
+     // std::string incoming_query;
+     // incoming_query = event_parse->query.str;
 
-      std::cout << incoming_query << std::endl;
+     // std::string temp = "Select '"+incoming_query+"';";
 
-      size_t query_length = event_parse->query.length;
+      std::string temp = "insert into tester (text) values('test');";
 
-      std::vector<std::string> test = split(incoming_query,',');
+      // std::vector<L_Table> table = parser_info->tables;
 
-      std::vector<L_Table> table = parser_info->tables;
-
-      int type = mysql_parser_get_statement_type(thd);
+      /*int type = mysql_parser_get_statement_type(thd);
       int number_of_querys;
       if (type != 1) {
           number_of_querys +=1;
@@ -150,19 +149,20 @@ static int lundgren_start(MYSQL_THD thd, mysql_event_class_t event_class,
 
 
       std::string query = "Insert into 'tester' ('text') VALUES ('"+std::to_string(number_of_querys)+"')";
-
-      std::cout << std::to_string(number_of_querys) << std::endl;
+*/
 
       char *query_to_run;
-      strncpy(query_to_run, query.c_str(), sizeof(query));
-
+      strncpy(query_to_run, temp.c_str(), sizeof(temp));
+      MYSQL_LEX_STRING new_query = {query_to_run, sizeof(query_to_run)};
+      mysql_parser_parse(thd, new_query, false, NULL, NULL);
+/*
 
       if (number_of_querys % 10 == 0){
 
           MYSQL_LEX_STRING new_query = {query_to_run, sizeof(query_to_run)};
           mysql_parser_parse(thd, new_query, false, NULL, NULL);
       }
-
+        */
 
       *((int *)event_parse->flags) |=
           (int)MYSQL_AUDIT_PARSE_REWRITE_PLUGIN_QUERY_REWRITTEN;
