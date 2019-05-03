@@ -27,7 +27,7 @@
 #include <mysql/psi/mysql_memory.h>
 #include <mysql/service_mysql_alloc.h>
 #include <string.h>
-#include <mysqlx/xdevapi.h>
+#include <thread>
 
 //#include <mysql/service_command.h>
 //#include <mysql/service_parser.h>
@@ -43,11 +43,8 @@
 #include "plugin/histogram_updater/distributed_query_rewriter.h"
 #include "plugin/histogram_updater/distributed_query.h"
 #include "plugin/histogram_updater/query_acceptance.h"
-/*#include "plugin/histogram_updater/join_strategies/data_to_query.h"
-#include "plugin/histogram_updater/join_strategies/semi_join.h"
-#include "plugin/histogram_updater/join_strategies/bloom_join/bloom_join.h"
-#include "plugin/histogram_updater/join_strategies/sort_merge/sort_merge.h"
-#include "plugin/histogram_updater/join_strategies/hash_redistribution.h"*/
+#include "plugin/histogram_updater/internal_query/internal_query_session.h"
+#include "plugin/histogram_updater/internal_query/sql_resultset.h"
 #include "plugin/histogram_updater/helpers.h"
 
 /* instrument the memory allocation */
@@ -56,6 +53,13 @@ static PSI_memory_key key_memory_lundgren;
 
 static PSI_memory_info all_rewrite_memory[] = {
     {&key_memory_lundgren, "histogram_updater", 0, 0, PSI_DOCUMENT_ME}};
+
+void connect_and_run()
+{
+    Internal_query_session *session = new Internal_query_session();
+    int fail = session->execute_resultless_query("USE histogram_updater");
+    delete session;
+}
 
 static int plugin_init(MYSQL_PLUGIN) {
   const char *category = "sql";
@@ -93,9 +97,13 @@ static int lundgren_start(MYSQL_THD thd, mysql_event_class_t event_class,
         return 0;
       }
 
+      std::thread plugin_executer (connect_and_run);
+
+      plugin_executer.join();
+
       //bool is_join = detect_join(event_parse->query.str);
 
-      L_Parser_info *parser_info = get_tables_from_parse_tree(thd);
+      //L_Parser_info *parser_info = get_tables_from_parse_tree(thd);
 
       //Distributed_query* distributed_query;
 
@@ -135,27 +143,35 @@ static int lundgren_start(MYSQL_THD thd, mysql_event_class_t event_class,
 
      // std::string temp = "Select '"+incoming_query+"';";
 
-      std::string temp = "insert into tester (text) values('test');";
+
+
+     // std::string temp = "insert into tester (text) values('test');";
+     //   fail = session->execute_resultless_query("insert into tester (text) values('test');");
+     // Sql_resultset *result = session->execute_query(temp.c_str());
+
 
       // std::vector<L_Table> table = parser_info->tables;
 
-      /*int type = mysql_parser_get_statement_type(thd);
-      int number_of_querys;
+     /* int type = mysql_parser_get_statement_type(thd);
+      int number_of_querys = 0;
       if (type != 1) {
           number_of_querys +=1;
       }
-
+      temp ="Insert into 'tester' ('text') VALUES ('"+std::to_string(number_of_querys)+"')";
+*/
+      /*
       // std::string query = "UPDATE HISTOGRAMS;";
 
 
       std::string query = "Insert into 'tester' ('text') VALUES ('"+std::to_string(number_of_querys)+"')";
 */
 
-      char *query_to_run;
+      /*char *query_to_run;
       strncpy(query_to_run, temp.c_str(), sizeof(temp));
       MYSQL_LEX_STRING new_query = {query_to_run, sizeof(query_to_run)};
       mysql_parser_parse(thd, new_query, false, NULL, NULL);
-/*
+        */
+       /*
 
       if (number_of_querys % 10 == 0){
 
@@ -164,6 +180,7 @@ static int lundgren_start(MYSQL_THD thd, mysql_event_class_t event_class,
       }
         */
 
+
       *((int *)event_parse->flags) |=
           (int)MYSQL_AUDIT_PARSE_REWRITE_PLUGIN_QUERY_REWRITTEN;
     }
@@ -171,6 +188,8 @@ static int lundgren_start(MYSQL_THD thd, mysql_event_class_t event_class,
 
   return 0;
 }
+
+
 
 /* Audit plugin descriptor */
 static struct st_mysql_audit lundgren_descriptor = {
