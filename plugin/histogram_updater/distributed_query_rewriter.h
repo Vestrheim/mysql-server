@@ -21,6 +21,7 @@ int catch_item(MYSQL_ITEM item, unsigned char *arg) {
   std::vector<L_Item> *fields = (std::vector<L_Item> *)arg;
 
   if (item != NULL) {
+    /*
     String s;
     item->print(&s, QT_ORDINARY);
 
@@ -46,6 +47,7 @@ int catch_item(MYSQL_ITEM item, unsigned char *arg) {
     }
 
     fields->push_back(fi);
+     */
   }
 
   return 0;

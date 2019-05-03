@@ -28,5 +28,9 @@ INCLUDE_DIRECTORIES(SYSTEM ${BOOST_PATCHES_DIR} ${BOOST_INCLUDE_DIR})
 
 MYSQL_ADD_PLUGIN(histogram_updater
         histogram_updater.cc
+        internal_query/internal_query_session.cc
+        internal_query/sql_resultset.cc
+        internal_query/sql_service_context_base.cc
+        internal_query/sql_service_context.cc
   MODULE_ONLY MODULE_OUTPUT_NAME "histogram_updater"
   )
