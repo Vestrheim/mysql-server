@@ -58,6 +58,7 @@ void connect_and_run()
 {
     Internal_query_session *session = new Internal_query_session();
     int fail = session->execute_resultless_query("USE histogram_updater");
+    fail = session->execute_resultless_query("Create database if not exists hei_hei");
     delete session;
 }
 
