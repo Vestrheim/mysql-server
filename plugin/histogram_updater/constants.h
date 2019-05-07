@@ -4,7 +4,7 @@
 
 #define INTERIM_TABLE_ENGINE "ENGINE = MEMORY"
 
-#define PLUGIN_FLAG "distributed"
+#define PLUGIN_FLAG "/*histogram*/"
 
 #define BATCH_SIZE 100000
 #define BLOOM_SLAVE_BATCH_SIZE 100000
