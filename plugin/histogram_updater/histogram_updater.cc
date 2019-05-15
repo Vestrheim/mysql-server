@@ -54,14 +54,6 @@ static PSI_memory_key key_memory_lundgren;
 static PSI_memory_info all_rewrite_memory[] = {
     {&key_memory_lundgren, "histogram_updater", 0, 0, PSI_DOCUMENT_ME}};
 
-void connect_and_run()
-{
-    Internal_query_session *session = new Internal_query_session();
-    int fail = session->execute_resultless_query("USE histogram_updater");
-    fail = session->execute_resultless_query("Create database if not exists hei_hei");
-    delete session;
-}
-
 static int plugin_init(MYSQL_PLUGIN) {
   const char *category = "sql";
   int count;
@@ -86,6 +78,19 @@ static int plugin_init(MYSQL_PLUGIN) {
 #define key_memory_lundgren PSI_NOT_INSTRUMENTED
 #endif /* HAVE_PSI_INTERFACE */
 
+void connect_and_run()
+{
+    Internal_query_session *session = new Internal_query_session();
+    int fail = session->execute_resultless_query("USE histogram_updater");
+    //fail = session->execute_resultless_query("Create database if not exists hei_hei");
+    fail = session->execute_resultless_query("Insert into 'tester' ('text') VALUES ('1')");
+    if (fail == 1) {
+    }
+    else{
+        delete session;
+    }
+}
+
 static int lundgren_start(MYSQL_THD thd, mysql_event_class_t event_class,
                           const void *event) {
   if (event_class == MYSQL_AUDIT_PARSE_CLASS) {
@@ -98,9 +103,9 @@ static int lundgren_start(MYSQL_THD thd, mysql_event_class_t event_class,
         return 0;
       }
 
-      std::thread plugin_executer (connect_and_run);
+      std::thread plugin_executor (connect_and_run);
 
-      plugin_executer.join();
+      plugin_executor.join();
 
       //bool is_join = detect_join(event_parse->query.str);
 
