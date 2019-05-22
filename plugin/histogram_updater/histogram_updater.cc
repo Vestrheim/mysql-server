@@ -81,14 +81,15 @@ static int plugin_init(MYSQL_PLUGIN) {
 void connect_and_run()
 {
     Internal_query_session *session = new Internal_query_session();
-    int fail = session->execute_resultless_query("USE histogram_updater");
-    //fail = session->execute_resultless_query("Create database if not exists hei_hei");
-    fail = session->execute_resultless_query("Insert into 'tester' ('text') VALUES ('1')");
-    if (fail == 1) {
-    }
-    else{
-        delete session;
-    }
+    session->execute_resultless_query("Create database if not exists histogram_updater ;");
+    session->execute_resultless_query("USE histogram_updater;");
+    session->execute_resultless_query("CREATE TABLE IF NOT EXISTS tester (\n"
+                                      "                               test_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,\n"
+                                      "                               text VARCHAR(255) NOT NULL\n"
+                                      "                               );");
+    session->execute_resultless_query("Insert into 'tester' ('text') VALUES ('1');");
+    delete session;
+
 }
 
 static int lundgren_start(MYSQL_THD thd, mysql_event_class_t event_class,
@@ -96,18 +97,26 @@ static int lundgren_start(MYSQL_THD thd, mysql_event_class_t event_class,
   if (event_class == MYSQL_AUDIT_PARSE_CLASS) {
     const struct mysql_event_parse *event_parse =
         static_cast<const struct mysql_event_parse *>(event);
-    if (event_parse->event_subclass == MYSQL_AUDIT_PARSE_POSTPARSE) {
+    if (event_parse->event_subclass == MYSQL_AUDIT_PARSE_PREPARSE) {
 
 
       if (!accept_query(thd, event_parse->query.str)) {
         return 0;
       }
 
+     connect_and_run();
+     /*
       std::thread plugin_executor (connect_and_run);
 
       plugin_executor.join();
 
-      //bool is_join = detect_join(event_parse->query.str);
+      /*
+
+      boost::thread plugin_executor = boost::thread(connect_and_run);
+
+      plugin_executor.join();
+
+       //bool is_join = detect_join(event_parse->query.str);
 
       //L_Parser_info *parser_info = get_tables_from_parse_tree(thd);
 
@@ -187,8 +196,8 @@ static int lundgren_start(MYSQL_THD thd, mysql_event_class_t event_class,
         */
 
 
-      *((int *)event_parse->flags) |=
-          (int)MYSQL_AUDIT_PARSE_REWRITE_PLUGIN_QUERY_REWRITTEN;
+     // *((int *)event_parse->flags) |=
+     //     (int)MYSQL_AUDIT_PARSE_REWRITE_PLUGIN_QUERY_REWRITTEN;
     }
   }
 
