@@ -78,11 +78,19 @@ static int plugin_init(MYSQL_PLUGIN) {
 #define key_memory_lundgren PSI_NOT_INSTRUMENTED
 #endif /* HAVE_PSI_INTERFACE */
 
-void connect_and_run()
+void connect_and_run(const char* table)
 {
     Internal_query_session *session = new Internal_query_session();
     int fail =session->execute_resultless_query("USE test");
-    Sql_resultset *resultset = session->execute_query("Analyze table tester update histogram on text");
+    char query[200];
+    strcpy(query,"Analyze table ");
+    strcat(query,table);
+    strcat(query," Update histogram on text");
+   // std::string builder = "Analyze table ";
+   // builder += table;
+   // builder += " Update histograms on text";
+   // const char* query = builder.c_str();
+    Sql_resultset *resultset = session->execute_query(query);   //Analyze table tester Update histograms on text
     delete session;
 
 }
@@ -99,7 +107,11 @@ static int lundgren_start(MYSQL_THD thd, mysql_event_class_t event_class,
         return 0;
       }
 
-      connect_and_run();
+      L_Parser_info *parser_info = get_tables_from_parse_tree(thd);
+
+      const char* table_name = parser_info->tables[0].name.c_str();
+
+      connect_and_run(table_name);
     }
   }
 
