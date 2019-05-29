@@ -54,14 +54,6 @@ static PSI_memory_key key_memory_lundgren;
 static PSI_memory_info all_rewrite_memory[] = {
     {&key_memory_lundgren, "histogram_updater", 0, 0, PSI_DOCUMENT_ME}};
 
-void connect_and_run()
-{
-    Internal_query_session *session = new Internal_query_session();
-    int fail = session->execute_resultless_query("USE histogram_updater");
-    fail = session->execute_resultless_query("Create database if not exists hei_hei");
-    delete session;
-}
-
 static int plugin_init(MYSQL_PLUGIN) {
   const char *category = "sql";
   int count;
@@ -86,6 +78,15 @@ static int plugin_init(MYSQL_PLUGIN) {
 #define key_memory_lundgren PSI_NOT_INSTRUMENTED
 #endif /* HAVE_PSI_INTERFACE */
 
+void connect_and_run()
+{
+    Internal_query_session *session = new Internal_query_session();
+    int fail =session->execute_resultless_query("USE test");
+    Sql_resultset *resultset = session->execute_query("Analyze table tester update histogram on text");
+    delete session;
+
+}
+
 static int lundgren_start(MYSQL_THD thd, mysql_event_class_t event_class,
                           const void *event) {
   if (event_class == MYSQL_AUDIT_PARSE_CLASS) {
@@ -98,92 +99,7 @@ static int lundgren_start(MYSQL_THD thd, mysql_event_class_t event_class,
         return 0;
       }
 
-      std::thread plugin_executer (connect_and_run);
-
-      plugin_executer.join();
-
-      //bool is_join = detect_join(event_parse->query.str);
-
-      //L_Parser_info *parser_info = get_tables_from_parse_tree(thd);
-
-      //Distributed_query* distributed_query;
-
-      /*if (is_join) {
-        if (parser_info != NULL) {
-          parser_info->tables.pop_back(); //hack
-        }
-
-        L_parsed_comment_args parsed_args = parse_query_comments(event_parse->query.str);
-
-        switch(parsed_args.join_strategy) {
-        case SEMI:
-          distributed_query = make_semi_join_distributed_query(parser_info, parsed_args);
-          break;
-        case BLOOM:
-          distributed_query = make_bloom_join_distributed_query(parser_info, parsed_args);
-          break;
-        case SORT_MERGE:
-          distributed_query = execute_sort_merge_distributed_query(parser_info);
-          break;
-        case HASH_REDIST:
-          distributed_query = make_hash_redist_join_distributed_query(parser_info, parsed_args, event_parse->query.str);
-          break;
-        case DATA_TO_QUERY:
-        default:
-          distributed_query = make_data_to_query_distributed_query(parser_info, true);
-          break;
-        }
-
-      } else {
-        distributed_query = make_data_to_query_distributed_query(parser_info, false);
-      } */
-
-
-     // std::string incoming_query;
-     // incoming_query = event_parse->query.str;
-
-     // std::string temp = "Select '"+incoming_query+"';";
-
-
-
-     // std::string temp = "insert into tester (text) values('test');";
-     //   fail = session->execute_resultless_query("insert into tester (text) values('test');");
-     // Sql_resultset *result = session->execute_query(temp.c_str());
-
-
-      // std::vector<L_Table> table = parser_info->tables;
-
-     /* int type = mysql_parser_get_statement_type(thd);
-      int number_of_querys = 0;
-      if (type != 1) {
-          number_of_querys +=1;
-      }
-      temp ="Insert into 'tester' ('text') VALUES ('"+std::to_string(number_of_querys)+"')";
-*/
-      /*
-      // std::string query = "UPDATE HISTOGRAMS;";
-
-
-      std::string query = "Insert into 'tester' ('text') VALUES ('"+std::to_string(number_of_querys)+"')";
-*/
-
-      /*char *query_to_run;
-      strncpy(query_to_run, temp.c_str(), sizeof(temp));
-      MYSQL_LEX_STRING new_query = {query_to_run, sizeof(query_to_run)};
-      mysql_parser_parse(thd, new_query, false, NULL, NULL);
-        */
-       /*
-
-      if (number_of_querys % 10 == 0){
-
-          MYSQL_LEX_STRING new_query = {query_to_run, sizeof(query_to_run)};
-          mysql_parser_parse(thd, new_query, false, NULL, NULL);
-      }
-        */
-
-
-      *((int *)event_parse->flags) |=
-          (int)MYSQL_AUDIT_PARSE_REWRITE_PLUGIN_QUERY_REWRITTEN;
+      connect_and_run();
     }
   }
 
