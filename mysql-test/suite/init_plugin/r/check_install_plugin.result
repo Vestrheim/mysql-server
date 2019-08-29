@@ -1,0 +1,13 @@
+show databases;
+Database
+information_schema
+mtr
+mysql
+performance_schema
+sys
+test
+use test;
+Install Plugin histogram_updater SONAME 'histogram_updater.so';
+Uninstall Plugin histogram_updater;
+Warnings:
+Warning	1620	Plugin is busy and will be uninstalled on shutdown

@@ -1,0 +1,19 @@
+use test;
+select * from employee;
+emp_id	surname	forename	gender	date_of_birth	salary	department_id
+select * from department;
+dept_id	dept_name	dept_location	dept_manager
+Load data infile '../../std_data/employee.txt'
+into table employee
+fields terminated by ','
+enclosed by '"'
+lines terminated by '\n';
+Load data infile '../../std_data/department.txt'
+into table department
+fields terminated by ','
+enclosed by '"'
+lines terminated by '\n';
+alter table department
+add foreign key (dept_manager) references employee(emp_id);
+alter table employee
+add foreign key (department_id) references department(dept_id);

@@ -1,0 +1,9 @@
+show databases;
+
+use test;
+
+Install Plugin histogram_updater SONAME 'histogram_updater.so';
+
+Uninstall Plugin histogram_updater;
+
+
