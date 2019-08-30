@@ -1,8 +1,4 @@
 use test;
-select * from employee;
-emp_id	surname	forename	gender	date_of_birth	salary	department_id
-select * from department;
-dept_id	dept_name	dept_location	dept_manager
 Load data infile '../../std_data/employee.txt'
 into table employee
 fields terminated by ','

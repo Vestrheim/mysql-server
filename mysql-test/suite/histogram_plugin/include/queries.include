@@ -1,8 +1,14 @@
---echo #
---echo #Timing all our queries
---echo #
+#Setup for the query tests. 
 
---echo # Check that the performance_schema is setup correctly. 
+--let $no_of_runs = 10
+--let $file_name = query_timing_results.txt
+
+# Checked that the performance_schema is setup correctly.;
+
+
+--disable_query_log
+--disable_result_log
+
 UPDATE performance_schema.setup_instruments
        SET ENABLED = 'YES', TIMED = 'YES'
        WHERE NAME LIKE '%statement/%';
@@ -16,7 +22,5 @@ UPDATE performance_schema.setup_consumers
        SET ENABLED = 'YES'
        WHERE NAME LIKE '%events_stages_%';
 
-select * from test.department;
-
-select event_id,sql_text,truncate(((timer_end-timer_start)/1000000000000),6) duration from performance_schema.events_statements_history_long where sql_text like 'select * from test.department';
-
+--enable_result_log
+--enable_query_log

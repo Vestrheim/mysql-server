@@ -1,0 +1,6 @@
+#
+#Timing all our queries and saving them to:
+#
+#
+/export/home/tmp/bygging/mysql-test/var/tmp/query_timing_results.txt
+#

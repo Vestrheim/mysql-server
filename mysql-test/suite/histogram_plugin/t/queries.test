@@ -1,0 +1,45 @@
+--echo #
+--echo #Timing all our queries and saving them to:
+--echo #
+--source suite/histogram_plugin/include/queries.include
+
+
+
+--let $i = $no_of_runs
+--disable_query_log
+--disable_result_log
+while ($i)
+{
+	select * from test.department;
+	select * from test.employee;
+	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id;
+	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_location = 'Texas';
+	dec $i;
+}
+
+
+--enable_result_log
+
+--append_file $MYSQL_TMP_DIR/$file_name;
+select average.*,weighted_avg.Adjusted_Average from 
+(select base.sql_text,avg(base.duration) Average from (
+select event_id,sql_text,truncate(((timer_end-timer_start)/1000000000000),6) duration from performance_schema.events_statements_history_long where sql_text like 'select * from%' order by duration desc) as base group by base.sql_text) as average
+join
+(select base.sql_text,avg(base.duration) Adjusted_Average from (
+select event_id,sql_text,truncate(((timer_end-timer_start)/1000000000000),6) duration from performance_schema.events_statements_history_long where sql_text like 'select * from%' and event_id not in (
+select ev.event_id from(select base.sql_text,max(base.duration) duration from (select event_id,sql_text,timer_end-timer_start duration from performance_schema.events_statements_history_long where sql_text like 'select *%from%test.%')as base group by base.sql_text) as max_values join (select event_id,sql_text,timer_end-timer_start duration from performance_schema.events_statements_history_long where sql_text like 'select *%from%test.%')as ev on ev.sql_text=max_values.sql_text and ev.duration=max_values.duration
+)
+order by duration desc) as base group by base.sql_text) as weighted_avg on average.sql_text=weighted_avg.sql_text;
+--EOF
+
+--echo #
+--echo $MYSQL_TMP_DIR/query_timing_results.txt
+--echo #
+
+#The sub select which finds the quickest run of each query. 
+#select max_values.*,ev.event_id from(select base.sql_text,max(base.duration) duration from (select event_id,sql_text,timer_end-timer_start duration from performance_schema.events_statements_history_long where sql_text like 'select *%from%test.%')as base group by base.sql_text) as max_values join (select event_id,sql_text,timer_end-timer_start duration from performance_schema.events_statements_history_long where sql_text like 'select *%from%test.%')as ev on ev.sql_text=max_values.sql_text and ev.duration=max_values.duration;
+
+
+--enable_query_log
+
+

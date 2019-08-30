@@ -1,9 +1,5 @@
 use test;
 
-select * from employee;
-
-select * from department;
-
 Load data infile '../../std_data/employee.txt'
 into table employee
 fields terminated by ','
