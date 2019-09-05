@@ -1,45 +1,102 @@
 --echo #
---echo #Timing all our queries and saving them to:
+--echo #running queries:
 --echo #
---source suite/histogram_plugin/include/queries.include
-
-
 
 --let $i = $no_of_runs
 --disable_query_log
 --disable_result_log
+
 while ($i)
 {
-	select * from test.department;
 	select * from test.employee;
+	select * from test.department;
+	select * from test.location;
+	select * from test.country;
 	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id;
-	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_location = 'Texas';
-	dec $i;
+	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.employee.department_id > 1500;
+	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.employee.department_id < 1500;
+	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.employee.department_id between 500 and 1500;
+	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.employee.gender = 0;
+	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.employee.gender = 1;
+	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_name >1500 ;
+	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_name <1500 ;
+	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_location_id > 1500;
+	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_location_id < 15000;
+	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_id > 10;
+	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_id < 10;
+	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_name >10;
+	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_name <4900;
+	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_name <10;
+	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_name >4900;
+	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_name between 50 and 1500;
+	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id join test.country on test.country.country_id = test.location.country_id where test.country.country_id > 500;
+	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id join test.country on test.country.country_id = test.location.country_id where test.country.country_id < 500;		
+	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id join test.country on test.country.country_id = test.location.country_id where test.country.country_name > 500;	
+	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id join test.country on test.country.country_id = test.location.country_id where test.country.country_name < 500;	
+	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id join test.country on test.country.country_id = test.location.country_id where test.country.country_name between 100 and 1000;
+dec $i;
 }
 
 
 --enable_result_log
 
---append_file $MYSQL_TMP_DIR/$file_name;
-select average.*,weighted_avg.Adjusted_Average from 
-(select base.sql_text,avg(base.duration) Average from (
-select event_id,sql_text,truncate(((timer_end-timer_start)/1000000000000),6) duration from performance_schema.events_statements_history_long where sql_text like 'select * from%' order by duration desc) as base group by base.sql_text) as average
-join
-(select base.sql_text,avg(base.duration) Adjusted_Average from (
-select event_id,sql_text,truncate(((timer_end-timer_start)/1000000000000),6) duration from performance_schema.events_statements_history_long where sql_text like 'select * from%' and event_id not in (
-select ev.event_id from(select base.sql_text,max(base.duration) duration from (select event_id,sql_text,timer_end-timer_start duration from performance_schema.events_statements_history_long where sql_text like 'select *%from%test.%')as base group by base.sql_text) as max_values join (select event_id,sql_text,timer_end-timer_start duration from performance_schema.events_statements_history_long where sql_text like 'select *%from%test.%')as ev on ev.sql_text=max_values.sql_text and ev.duration=max_values.duration
-)
-order by duration desc) as base group by base.sql_text) as weighted_avg on average.sql_text=weighted_avg.sql_text;
---EOF
 
---echo #
---echo $MYSQL_TMP_DIR/query_timing_results.txt
---echo #
+select average.sql_text "Query",average.Average "Average",weighted_avg.Adjusted_Average "Adjusted average",average.returned_rows "Returned rows" from
+    (select base.sql_text,avg(base.duration) Average,base.returned_rows from (
+                                                              select event_id,sql_text,truncate(((timer_end-timer_start)/1000000000000),6) duration,rows_sent returned_rows from performance_schema.events_statements_history_long where sql_text like 'select * from%')
+        as base group by base.sql_text,base.returned_rows)
+    as average
+        join
+    (select base.sql_text,avg(base.duration) Adjusted_Average from (
+                                                                       select event_id,sql_text,truncate(((timer_end-timer_start)/1000000000000),6) duration from performance_schema.events_statements_history_long where sql_text like 'select * from%' and event_id not in (
+                                                                           select ev.event_id from(select base.sql_text,max(base.duration) duration from (select event_id,sql_text,timer_end-timer_start duration from performance_schema.events_statements_history_long where sql_text like 'select *%from%test.%')as base group by base.sql_text) as max_values join (select event_id,sql_text,timer_end-timer_start duration from performance_schema.events_statements_history_long where sql_text like 'select *%from%test.%')as ev on ev.sql_text=max_values.sql_text and ev.duration=max_values.duration
+                                                                       )
+                                                                   ) as base group by base.sql_text)
+    as weighted_avg on average.sql_text=weighted_avg.sql_text order by average.sql_text;
+
+select data.Query,data.Average,data.Adjusted_Average "Adjusted average",sqrt(avg(power(std_dev_base.duration-data.Adjusted_Average,2))) "Standard Deviation",data.`Returned rows` from (
+select average.sql_text "Query",average.Average "Average",weighted_avg.Adjusted_Average ,average.returned_rows "Returned rows" from
+    (select base.sql_text,avg(base.duration) Average,base.returned_rows from (
+                                                                                 select event_id,sql_text,truncate(((timer_end-timer_start)/1000000000000),6) duration,rows_sent returned_rows from performance_schema.events_statements_history_long where sql_text like 'select * from%')
+                                                                                 as base group by base.sql_text,base.returned_rows)
+        as average
+        join
+    (select base.sql_text,avg(base.duration) Adjusted_Average from (
+                                                                       select event_id,sql_text,truncate(((timer_end-timer_start)/1000000000000),6) duration from performance_schema.events_statements_history_long where sql_text like 'select * from%' and event_id not in (
+                                                                           select ev.event_id from(select base.sql_text,max(base.duration) duration from (select event_id,sql_text,timer_end-timer_start duration from performance_schema.events_statements_history_long where sql_text like 'select *%from%test.%')as base group by base.sql_text) as max_values join (select event_id,sql_text,timer_end-timer_start duration from performance_schema.events_statements_history_long where sql_text like 'select *%from%test.%')as ev on ev.sql_text=max_values.sql_text and ev.duration=max_values.duration
+                                                                       )
+                                                                   ) as base group by base.sql_text)
+        as weighted_avg on average.sql_text=weighted_avg.sql_text
+    ) as data
+join (
+    select event_id, sql_text, truncate(((timer_end - timer_start) / 1000000000000), 6) duration
+    from performance_schema.events_statements_history_long
+    where sql_text like 'select * from%'
+      and event_id not in (
+        select ev.event_id
+        from (select base.sql_text, max(base.duration) duration
+              from (select event_id, sql_text, timer_end - timer_start duration
+                    from performance_schema.events_statements_history_long
+                    where sql_text like 'select *%from%test.%') as base
+              group by base.sql_text) as max_values
+                 join (select event_id, sql_text, timer_end - timer_start duration
+                       from performance_schema.events_statements_history_long
+                       where sql_text like 'select *%from%test.%') as ev
+                      on ev.sql_text = max_values.sql_text and ev.duration = max_values.duration
+    )
+) std_dev_base on std_dev_base.sql_text=data.Query group by data.Query, data.Average, data.Adjusted_Average, data.`Returned rows` order by data.Query
+;
 
 #The sub select which finds the quickest run of each query. 
 #select max_values.*,ev.event_id from(select base.sql_text,max(base.duration) duration from (select event_id,sql_text,timer_end-timer_start duration from performance_schema.events_statements_history_long where sql_text like 'select *%from%test.%')as base group by base.sql_text) as max_values join (select event_id,sql_text,timer_end-timer_start duration from performance_schema.events_statements_history_long where sql_text like 'select *%from%test.%')as ev on ev.sql_text=max_values.sql_text and ev.duration=max_values.duration;
 
+--disable_result_log
 
 --enable_query_log
+
+--echo #Truncate the performance schema so that it's ready for the next run. 
+truncate table performance_schema.events_statements_history_long;
+
+--disable_query_log
 
 

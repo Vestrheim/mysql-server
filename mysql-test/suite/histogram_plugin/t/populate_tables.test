@@ -1,19 +1,48 @@
 use test;
 
-Load data infile '../../std_data/employee.txt'
+Load data infile '../../std_data/employee.csv'
 into table employee
 fields terminated by ','
 enclosed by '"'
-lines terminated by '\n';
+lines terminated by '\n'
+IGNORE 1 ROWS;
 
-Load data infile '../../std_data/department.txt'
+Load data infile '../../std_data/department.csv'
 into table department
 fields terminated by ','
 enclosed by '"'
-lines terminated by '\n';
+lines terminated by '\n'
+IGNORE 1 ROWS;
+
+Load data infile '../../std_data/location.csv'
+into table location
+fields terminated by ','
+enclosed by '"'
+lines terminated by '\n'
+IGNORE 1 ROWS;
+
+Load data infile '../../std_data/country.csv'
+into table country
+fields terminated by ','
+enclosed by '"'
+lines terminated by '\n'
+IGNORE 1 ROWS;
 
 alter table department
 add foreign key (dept_manager) references employee(emp_id);
 
+alter table department
+add foreign key (dept_location_id) references location(location_id);
+
 alter table employee
 add foreign key (department_id) references department(dept_id);
+
+alter table location
+add foreign key (country_id) references country(country_id);
+
+--echo #Running analyze on tables to remove discrepancy in query time. 
+analyze table department;
+analyze table employee;
+analyze table location;
+analyze table country;
+

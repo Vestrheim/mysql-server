@@ -1,0 +1,25 @@
+--echo #
+--echo #Master test for timing:
+--echo #
+
+--disable_query_log
+--disable_result_log
+
+--echo #Running queries.include to make sure we are ready for queries to run. 
+--source suite/histogram_plugin/include/queries.include
+
+--echo #Running the first test on the standard dataset with no histograms
+--source suite/histogram_plugin/t/queries.test
+
+
+--echo #creating histograms for employee and department
+analyze table employee update histogram on gender,salary,department_id;
+analyze table department update histogram on dept_name,dept_location;
+analyze table location update histogram on location_name;
+analyze table country update histogram on country_name;
+
+--echo #Running the second test on the standard dataset with histograms
+--source suite/histogram_plugin/t/queries.test
+
+
+

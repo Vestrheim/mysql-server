@@ -1,6 +1,6 @@
 #Setup for the query tests. 
 
---let $no_of_runs = 10
+--let $no_of_runs = 5
 --let $file_name = query_timing_results.txt
 
 # Checked that the performance_schema is setup correctly.;
@@ -22,5 +22,14 @@ UPDATE performance_schema.setup_consumers
        SET ENABLED = 'YES'
        WHERE NAME LIKE '%events_stages_%';
 
---enable_result_log
+
+
+--echo #
+--echo #Setup the tables and import the standard data for queries to run
+--echo #
+--source suite/histogram_plugin/t/setup_tables.test
+--source suite/histogram_plugin/t/populate_tables.test
+
 --enable_query_log
+--enable_result_log
+

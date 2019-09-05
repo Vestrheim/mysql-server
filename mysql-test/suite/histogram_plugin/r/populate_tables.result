@@ -1,14 +1,16 @@
 use test;
-Load data infile '../../std_data/employee.txt'
+Load data infile '../../std_data/employee.csv'
 into table employee
 fields terminated by ','
 enclosed by '"'
-lines terminated by '\n';
-Load data infile '../../std_data/department.txt'
+lines terminated by '\n'
+IGNORE 1 ROWS;
+Load data infile '../../std_data/department.csv'
 into table department
 fields terminated by ','
 enclosed by '"'
-lines terminated by '\n';
+lines terminated by '\n'
+IGNORE 1 ROWS;
 alter table department
 add foreign key (dept_manager) references employee(emp_id);
 alter table employee
