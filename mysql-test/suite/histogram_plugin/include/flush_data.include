@@ -1,0 +1,16 @@
+--echo #
+--echo # Flushing database tables to accept new data. 
+--echo #
+
+alter table test.department drop foreign key department_ibfk_1;
+
+alter table test.department drop foreign key department_ibfk_2;
+
+alter table test.employee drop foreign key employee_ibfk_1;
+
+alter table test.location drop foreign key location_ibfk_1;
+
+truncate table test.employee;
+truncate table test.department;
+truncate table test.location;
+truncate table test.country;

@@ -1,2 +1,0 @@
-1,"West-shores","Ohio",1
-2,"East-shores","Texas",3

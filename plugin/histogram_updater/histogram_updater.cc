@@ -103,7 +103,8 @@ static int lundgren_start(MYSQL_THD thd, mysql_event_class_t event_class,
     if (event_parse->event_subclass == MYSQL_AUDIT_PARSE_POSTPARSE) {
 
 
-      if (!accept_query(thd, event_parse->query.str)) {
+      if (!
+      (thd, event_parse->query.str)) {
         return 0;
       }
 
