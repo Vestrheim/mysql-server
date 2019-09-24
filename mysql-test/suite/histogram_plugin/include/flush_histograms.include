@@ -2,7 +2,4 @@
 --echo # Flushing database histograms to perform new test. 
 --echo #
 
-analyze table test.employee drop histogram on gender,salary,department_id;
-analyze table test.department drop histogram on dept_name,dept_location;
-analyze table test.location drop histogram on location_name;
-analyze table test.country drop histogram on country_name;
+analyze table test.measurement drop histogram on msm_datetime;

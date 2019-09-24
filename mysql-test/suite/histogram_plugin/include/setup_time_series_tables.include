@@ -1,0 +1,39 @@
+use test;
+
+create table measurement(
+	msm_id INT auto_increment primary key,
+	msm_datetime Datetime(2) not null,
+	msm_value decimal(12,4) not null,
+	msm_component_id int,
+	msm_serv_id int not null
+);
+
+create table server(
+	serv_id int auto_increment primary key,
+	serv_rack_id int not null
+);
+
+create table rack(
+	rack_id int auto_increment primary key,
+	rack_cent_id int not null 
+);
+
+create table center(
+	cent_id int auto_increment primary key,
+	cent_city_id int
+);
+
+create table city(
+	city_id int auto_increment primary key,
+	city_name int
+);
+
+create table component(
+	component_id int auto_increment primary key,
+	component_name int
+);
+
+--echo #Creating index
+create index msdid on test.measurement(msm_datetime);
+ALTER TABLE measurement ALTER INDEX msdid invisible;
+

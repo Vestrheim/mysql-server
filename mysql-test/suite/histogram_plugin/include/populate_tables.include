@@ -1,0 +1,55 @@
+use test;
+
+Load data infile '../../std_data/server.csv'
+into table server
+fields terminated by ','
+enclosed by '"'
+lines terminated by '\n'
+IGNORE 1 ROWS;
+
+Load data infile '../../std_data/rack.csv'
+into table rack
+fields terminated by ','
+enclosed by '"'
+lines terminated by '\n'
+IGNORE 1 ROWS;
+
+Load data infile '../../std_data/center.csv'
+into table center
+fields terminated by ','
+enclosed by '"'
+lines terminated by '\n'
+IGNORE 1 ROWS;
+
+Load data infile '../../std_data/city.csv'
+into table city
+fields terminated by ','
+enclosed by '"'
+lines terminated by '\n'
+IGNORE 1 ROWS;
+
+Load data infile '../../std_data/component.csv'
+into table component
+fields terminated by ','
+enclosed by '"'
+lines terminated by '\n'
+IGNORE 1 ROWS;
+
+alter table server
+add foreign key (serv_rack_id) references rack(rack_id);
+
+alter table rack
+add foreign key (rack_cent_id) references center(cent_id);
+
+alter table center
+add foreign key (cent_city_id) references city(city_id);
+
+alter table measurement 
+add foreign key (msm_serv_id) references server(serv_id);
+
+--echo #Running analyze on tables to remove discrepancy in query time. 
+analyze table server;
+analyze table rack;
+analyze table center;
+analyze table city;
+

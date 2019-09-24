@@ -5,64 +5,27 @@
 --disable_query_log
 --disable_result_log
 
---let $dataset_x2=0
---let $dataset_x4=0
---let $dataset_x8=0
+--let $file_number = 1
 
 --echo #Running queries.include to make sure we are ready for queries to run. 
 --source suite/histogram_plugin/include/queries.include
 
-
---echo #Running the first test on the standard dataset with no histograms
---source suite/histogram_plugin/t/queries.test
-
---echo #creating histograms for employee and department
-analyze table employee update histogram on gender,salary,department_id;
-analyze table department update histogram on dept_name,dept_location;
-analyze table location update histogram on location_name;
-analyze table country update histogram on country_name;
-
---echo #Running the second test on the standard dataset with histograms
---source suite/histogram_plugin/t/queries.test
+# Importing the first two periods, this is the base measurement data. 
+--source suite/histogram_plugin/include/insert_partly_timeseries.include
+--source suite/histogram_plugin/include/insert_partly_timeseries.include
 
 
---let $dataset_x2=1
---echo #Removing the first dataset, flushing histograms and importing the second dataset (same distribution)
---source suite/histogram_plugin/include/flush_data.include
---source suite/histogram_plugin/include/flush_histograms.include
---source suite/histogram_plugin/include/load_dataset_x.include
---let $dataset_x2=0
-
---echo #Running the third test on the 2x dataset with no histograms
---source suite/histogram_plugin/t/queries.test
-
---echo #creating histograms for employee and department
-analyze table employee update histogram on gender,salary,department_id;
-analyze table department update histogram on dept_name,dept_location;
-analyze table location update histogram on location_name;
-analyze table country update histogram on country_name;
-
---echo #Running the fourth test on the 2x dataset with histograms this time. 
---source suite/histogram_plugin/t/queries.test
+#Running first set of test. 
+# --source suite/histogram_plugin/include/testing_set.include
+--source suite/histogram_plugin/include/explaining_plans.include
 
 
+#Importing more periods of data.
+# --source suite/histogram_plugin/include/insert_partly_timeseries.include
+# --source suite/histogram_plugin/include/insert_partly_timeseries.include
+# --source suite/histogram_plugin/include/insert_partly_timeseries.include
+# --source suite/histogram_plugin/include/insert_partly_timeseries.include
 
---let $dataset_x4=1
---echo #Removing the second dataset, flushing histograms and importing the third dataset (same distribution)
---source suite/histogram_plugin/include/flush_data.include
---source suite/histogram_plugin/include/flush_histograms.include
---source suite/histogram_plugin/include/load_dataset_x.include
---let $dataset_x4=0
-
---echo #Running the fifth test on the 4x dataset with no histograms
---source suite/histogram_plugin/t/queries.test
-
---echo #creating histograms for employee and department
-analyze table employee update histogram on gender,salary,department_id;
-analyze table department update histogram on dept_name,dept_location;
-analyze table location update histogram on location_name;
-analyze table country update histogram on country_name;
-
---echo #Running the sixth test on the 4x dataset with histograms this time. 
---source suite/histogram_plugin/t/queries.test
+#Running tests again.
+# --source suite/histogram_plugin/include/testing_set.include
 

@@ -1,0 +1,37 @@
+#Main file for organizing tests
+
+--let $param_1 = "No histogram "
+--let $param_2 = "No index"
+--disable_query_log
+ALTER TABLE measurement ALTER INDEX msdid invisible;
+
+--echo #Running the first test on the standard dataset with no histograms
+--source suite/histogram_plugin/t/queries.test
+
+
+--echo #creating histograms for measurement_value
+analyze table measurement update histogram on msm_value;
+
+--let $param_1 = "Histogram "
+--let $param_2 = "No index"
+--echo #Running the second test on the standard dataset with histograms
+--source suite/histogram_plugin/t/queries.test
+--disable_query_log
+ALTER TABLE measurement ALTER INDEX msdid visible;
+
+
+--echo removing histograms
+--source suite/histogram_plugin/include/flush_histograms.include
+
+--let $param_1 = "No histogram "
+--let $param_2 = "Index"
+--echo #Running the third test on the standard dataset with no histograms
+--source suite/histogram_plugin/t/queries.test
+
+--echo #creating histograms for measurement_value
+analyze table measurement update histogram on msm_value;
+
+--let $param_1 = "Histogram "
+--let $param_2 = "Index"
+--echo #Running the fourth test on the standard dataset with histograms
+--source suite/histogram_plugin/t/queries.test

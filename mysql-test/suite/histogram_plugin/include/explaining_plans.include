@@ -1,0 +1,23 @@
+#File containing tests for explaining plans. 
+
+#Turn off index
+ALTER TABLE measurement ALTER INDEX msdid invisible;
+
+--echo #Show plans for the first sets of tests
+#explain select * from test.measurement where test.measurement.msm_value > 80;
+#explain select * from test.measurement where test.measurement.msm_value < 80;
+#explain select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_value >95;
+explain select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_value <95;
+
+
+# Create histogram on these tests
+analyze table measurement update histogram on msm_value;
+--echo #Show plans for the tests with histogram again
+#explain select * from test.measurement where test.measurement.msm_value > 80;
+#explain select * from test.measurement where test.measurement.msm_value < 80;
+#explain select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_value >95;
+explain select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_value <95;
+
+#Turn on index
+ALTER TABLE measurement ALTER INDEX msdid visible;
+explain select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_value <95;

@@ -26,9 +26,10 @@ UPDATE performance_schema.setup_consumers
 
 --echo #
 --echo #Setup the tables and import the standard data for queries to run
---echo #
---source suite/histogram_plugin/t/setup_tables.test
---source suite/histogram_plugin/t/populate_tables.test
+--source suite/histogram_plugin/include/setup_time_series_tables.include
+--echo #--Tables setup
+--source suite/histogram_plugin/include/populate_tables.include
+--echo #--Base data imported
 
 --enable_query_log
 --enable_result_log

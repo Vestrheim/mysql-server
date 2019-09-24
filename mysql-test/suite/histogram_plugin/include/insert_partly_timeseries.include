@@ -1,0 +1,10 @@
+--disable_query_log
+--disable_result_log
+use test;
+--echo #Importing measurement number $file_number
+
+source /home/svestrhe/Documents/Forprosjekt/code/mysql-server/mysql-test/std_data/measurement_$file_number.sql;
+--enable_query_log
+--enable_result_log
+
+--inc $file_number

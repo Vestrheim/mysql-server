@@ -3,39 +3,63 @@
 --echo #
 
 --let $i = $no_of_runs
+--let $latest_measurement = `SELECT UNIX_TIMESTAMP(max(msm_datetime)) from test.measurement`
+--let $unix_half_hour = 1800
+--let $unix_hour = 3600
+--let $unix_day = 86400
+--let $unix_week = 604800
+--expr $last_half_hour = $latest_measurement-$unix_half_hour
+--expr $last_hour = $latest_measurement-$unix_hour
+--expr $last_day = $latest_measurement-$unix_day
+--expr $last_week = $latest_measurement-$unix_week
 --disable_query_log
 --disable_result_log
 
+use test;
+
 while ($i)
 {
-	select * from test.employee;
-	select * from test.department;
-	select * from test.location;
-	select * from test.country;
-	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id;
-	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.employee.department_id > 1500;
-	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.employee.department_id < 1500;
-	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.employee.department_id between 500 and 2500;
-	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.employee.gender = 0;
-	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.employee.gender = 1;
-	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_name >1500 ;
-	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_name <1500 ;
-	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_name between 500 and 2500 ;
-	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_location_id > 1500;
-	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_location_id < 15000;
-	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_location_id between 1500 and 15000;
-	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_id > 10;
-	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_id < 10;
-	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_name >10;
-	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_name <4900;
-	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_name <10;
-	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_name >4900;
-	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_name between 50 and 1500;
-	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id join test.country on test.country.country_id = test.location.country_id where test.country.country_id > 500;
-	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id join test.country on test.country.country_id = test.location.country_id where test.country.country_id < 500;		
-	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id join test.country on test.country.country_id = test.location.country_id where test.country.country_name > 500;	
-	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id join test.country on test.country.country_id = test.location.country_id where test.country.country_name < 500;	
-	select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id join test.country on test.country.country_id = test.location.country_id where test.country.country_name between 100 and 1000;
+#	select * from test.measurement;
+#	select * from test.server;
+#	select * from test.rack;
+#	select * from test.center;
+#	select * from test.city;
+#	select * from test.component;
+#Histogram testing:
+	--eval select * from test.measurement where test.measurement.msm_value > 80;
+	--eval select * from test.measurement where test.measurement.msm_value < 80;
+	--eval select * from test.measurement where test.measurement.msm_value between 0 and 80;
+	--eval select * from test.measurement where test.measurement.msm_value between 80 and 100;
+
+#Last hour of measurements
+#	--eval select * from test.measurement where test.measurement.msm_datetime>from_unixtime($last_hour);	
+#	--eval select * from test.measurement where test.measurement.msm_datetime>from_unixtime($last_hour) and test.measurement.msm_value >30;	
+#	--eval select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime($last_hour)and test.measurement.msm_value >30;
+#	--eval select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime($last_hour)and test.measurement.msm_value >30;
+#	--eval select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime($last_hour)and test.measurement.msm_value >30;
+#	--eval select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime($last_hour)and test.measurement.msm_value <30;
+#	--eval select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime($last_hour)and test.measurement.msm_value <25;
+#	--eval select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime($last_hour)and test.measurement.msm_value <50;
+#	--eval select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime($last_hour)and test.measurement.msm_value >95;
+#Last 24-hours of measurements
+	--eval select * from test.measurement where test.measurement.msm_datetime>from_unixtime($last_day);
+	--eval select * from test.measurement where test.measurement.msm_datetime>from_unixtime($last_day) and test.measurement.msm_value >80;
+	--eval select * from test.measurement where test.measurement.msm_datetime>from_unixtime($last_day) and test.measurement.msm_value <80;	
+	--eval select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime($last_day)and test.measurement.msm_value >80;
+	--eval select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime($last_day)and test.measurement.msm_value <80;
+	--eval select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime($last_day)and test.measurement.msm_value >30;
+	--eval select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime($last_day)and test.measurement.msm_value <80;
+	--eval select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime($last_day)and test.measurement.msm_value >95;
+	--eval select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id join test.city on test.city.city_id = test.center.cent_city_id where test.measurement.msm_datetime>from_unixtime($last_day)and test.measurement.msm_value >95;
+	--eval select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime($last_day)and test.measurement.msm_value between 90 and 100;
+
+#Between last half hour and last hour
+#	--eval select * from test.measurement where test.measurement.msm_datetime between from_unixtime($last_half_hour) and from_unixtime($last_hour);
+#	--eval select * from test.measurement where test.measurement.msm_datetime between from_unixtime($last_half_hour) and from_unixtime($last_hour) and test.measurement.msm_value >30;	
+#	--eval select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime between from_unixtime($last_half_hour) and from_unixtime($last_hour) and test.measurement.msm_value >30;
+#	--eval select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime between from_unixtime($last_half_hour) and from_unixtime($last_hour) and test.measurement.msm_value >30;
+#	--eval select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime between from_unixtime($last_half_hour) and from_unixtime($last_hour) and test.measurement.msm_value >90;
+#	--eval select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime between from_unixtime($last_half_hour) and from_unixtime($last_hour) and test.measurement.msm_value <90;
 dec $i;
 }
 
@@ -79,17 +103,14 @@ dec $i;
 #select max_values.*,ev.event_id from(select base.sql_text,max(base.duration) duration from (select event_id,sql_text,timer_end-timer_start duration from performance_schema.events_statements_history_long where sql_text like 'select *%from%test.%')as base group by base.sql_text) as max_values join (select event_id,sql_text,timer_end-timer_start duration from performance_schema.events_statements_history_long where sql_text like 'select *%from%test.%')as ev on ev.sql_text=max_values.sql_text and ev.duration=max_values.duration;
 
 #NEW METHOD
-select sql_text Query,truncate(((timer_end-timer_start)/1000000000000),6) Duration,rows_sent "Returned rows" from performance_schema.events_statements_history_long where sql_text like 'select * from test.%' and event_id not in (                                                                            select ev.event_id from(select base.sql_text,max(base.duration) duration from (select event_id,sql_text,timer_end-timer_start duration from performance_schema.events_statements_history_long where sql_text like 'select * from test.%')as base group by base.sql_text) as max_values join (select event_id,sql_text,timer_end-timer_start duration from performance_schema.events_statements_history_long where sql_text like 'select * from test.%')as ev on ev.sql_text=max_values.sql_text and ev.duration=max_values.duration                                                                        ) order by sql_text;
+--eval select sql_text Query,truncate(((timer_end-timer_start)/1000000000000),6) Duration,rows_sent "Returned rows",concat($param_1,$param_2) "Test type" from performance_schema.events_statements_history_long where sql_text like 'select * from test.%' and event_id not in (                                                                            select ev.event_id from(select base.sql_text,max(base.duration) duration from (select event_id,sql_text,timer_end-timer_start duration from performance_schema.events_statements_history_long where sql_text like 'select * from test.%')as base group by base.sql_text) as max_values join (select event_id,sql_text,timer_end-timer_start duration from performance_schema.events_statements_history_long where sql_text like 'select * from test.%')as ev on ev.sql_text=max_values.sql_text and ev.duration=max_values.duration                                                                        ) order by sql_text;
+
 
 
 
 --disable_result_log
 
---enable_query_log
-
---echo #Truncate the performance schema so that it's ready for the next run. 
+--echo #Truncating the performance schema so that it's ready for the next run. 
 truncate table performance_schema.events_statements_history_long;
-
---disable_query_log
 
 
