@@ -2,30 +2,61 @@
 --echo #Master test for timing:
 --echo #
 
+--let $no_of_measurements = 30
+--let $j=$no_of_measurements
+
 --disable_query_log
 --disable_result_log
 
---let $file_number = 1
-
---echo #Running queries.include to make sure we are ready for queries to run. 
+--echo #Running queries.include to make sure we are ready for queries to run and create the tables and import base data. 
 --source suite/histogram_plugin/include/queries.include
 
-# Importing the first two periods, this is the base measurement data. 
+--let $file_number = 0
+
+# Importing the start period. 
 --source suite/histogram_plugin/include/insert_partly_timeseries.include
+
+#Run as many times as we want our base tests to run. 
+while ($j)
+{
+#Running the next set of test. 
+--source suite/histogram_plugin/include/testing_set_base.include
+
+# Importing the next period. 
 --source suite/histogram_plugin/include/insert_partly_timeseries.include
+dec $j;
+}
 
 
-#Running first set of test. 
-# --source suite/histogram_plugin/include/testing_set.include
---source suite/histogram_plugin/include/explaining_plans.include
+
+#Reinitialize her! 
+--source suite/histogram_plugin/include/restart_server.include
+--source suite/histogram_plugin/include/queries.include
 
 
-#Importing more periods of data.
-# --source suite/histogram_plugin/include/insert_partly_timeseries.include
-# --source suite/histogram_plugin/include/insert_partly_timeseries.include
-# --source suite/histogram_plugin/include/insert_partly_timeseries.include
-# --source suite/histogram_plugin/include/insert_partly_timeseries.include
+--let $j=$no_of_measurements
+--let $file_number = 0
 
-#Running tests again.
-# --source suite/histogram_plugin/include/testing_set.include
+# Importing the start period. 
+--source suite/histogram_plugin/include/insert_partly_timeseries.include
+# Creating histogram for measurement_value that is to go stale
+analyze table measurement update histogram on msm_value;
+
+
+#Run as many times as we want our base tests to run. 
+while ($j)
+{
+#Running the next set of test. 
+--source suite/histogram_plugin/include/testing_set_one_stale_histogram.include
+# Importing the next period. 
+--source suite/histogram_plugin/include/insert_partly_timeseries.include
+#--echo #Run Number $j
+dec $j;
+}
+
+
+
+
+#Cleanup
+--source suite/histogram_plugin/include/restart_server.include
 

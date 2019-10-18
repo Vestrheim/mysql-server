@@ -1,5 +1,6 @@
 --echo #
 --echo # Flushing database histograms to perform new test. 
 --echo #
-
-analyze table test.measurement drop histogram on msm_datetime;
+--enable_result_log
+analyze table test.measurement drop histogram on msm_value;
+--disable_result_log

@@ -9,22 +9,22 @@ create table measurement(
 );
 
 create table server(
-	serv_id int auto_increment primary key,
+	serv_id int primary key,
 	serv_rack_id int not null
 );
 
 create table rack(
-	rack_id int auto_increment primary key,
+	rack_id int primary key,
 	rack_cent_id int not null 
 );
 
 create table center(
-	cent_id int auto_increment primary key,
+	cent_id int primary key,
 	cent_city_id int
 );
 
 create table city(
-	city_id int auto_increment primary key,
+	city_id int primary key,
 	city_name int
 );
 
@@ -35,5 +35,5 @@ create table component(
 
 --echo #Creating index
 create index msdid on test.measurement(msm_datetime);
-ALTER TABLE measurement ALTER INDEX msdid invisible;
+#ALTER TABLE measurement ALTER INDEX msdid invisible;
 

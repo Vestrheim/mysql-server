@@ -1,0 +1,11 @@
+#Flushing the server so that we are ready to start again. 
+
+--disable_query_log
+--disable_result_log
+
+DROP DATABASE test;
+CREATE DATABASE test;
+--source include/restart_mysqld.inc
+
+--enable_result_log
+--enable_query_log

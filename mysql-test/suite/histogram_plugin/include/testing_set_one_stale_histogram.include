@@ -1,0 +1,10 @@
+#Main file for organizing tests
+
+
+--let $param_1 = "Stale histogram "
+--disable_query_log
+
+--echo #Running the first test on the standard dataset with a stale histogram
+--source suite/histogram_plugin/t/queries.test
+
+--enable_query_log

@@ -1,11 +1,11 @@
 use test;
 
-Load data infile '../../std_data/server.csv'
-into table server
+Load data infile '../../std_data/server.csv' 
+into table server 
 fields terminated by ','
-enclosed by '"'
-lines terminated by '\n'
-IGNORE 1 ROWS;
+enclosed by '"' 
+lines terminated by '\n' 
+IGNORE 1 ROWS ;
 
 Load data infile '../../std_data/rack.csv'
 into table rack

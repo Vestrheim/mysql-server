@@ -1,13 +1,20 @@
 #File containing tests for explaining plans. 
 
+--echo #This should not happen now... 
+
+#Let's not turn this off for now. 
 #Turn off index
-ALTER TABLE measurement ALTER INDEX msdid invisible;
+#ALTER TABLE measurement ALTER INDEX msdid invisible;
+#ALTER TABLE measurement ALTER INDEX msm_serv_id invisible;
+#ALTER TABLE server ALTER INDEX serv_id invisible;
+#ALTER TABLE server ALTER INDEX serv_rack_id invisible;
+#ALTER TABLE rack ALTER INDEX rack_id invisible;
 
 --echo #Show plans for the first sets of tests
 #explain select * from test.measurement where test.measurement.msm_value > 80;
 #explain select * from test.measurement where test.measurement.msm_value < 80;
-#explain select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_value >95;
-explain select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_value <95;
+explain format = tree select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_value between 80 and 100;
+explain format = tree select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_value <80;
 
 
 # Create histogram on these tests
@@ -15,9 +22,10 @@ analyze table measurement update histogram on msm_value;
 --echo #Show plans for the tests with histogram again
 #explain select * from test.measurement where test.measurement.msm_value > 80;
 #explain select * from test.measurement where test.measurement.msm_value < 80;
-#explain select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_value >95;
-explain select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_value <95;
+explain format = tree select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_value between 80 and 100;
+explain format = tree select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_value <80;
 
 #Turn on index
 ALTER TABLE measurement ALTER INDEX msdid visible;
-explain select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_value <95;
+explain format = tree select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_value between 80 and 100;
+explain format = tree select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_value <80;

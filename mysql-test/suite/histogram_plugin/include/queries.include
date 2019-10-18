@@ -1,7 +1,6 @@
 #Setup for the query tests. 
 
 --let $no_of_runs = 10
---let $file_name = query_timing_results.txt
 
 # Checked that the performance_schema is setup correctly.;
 
