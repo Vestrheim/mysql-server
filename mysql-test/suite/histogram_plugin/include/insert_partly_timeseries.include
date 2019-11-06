@@ -1,5 +1,5 @@
---enable_query_log
---enable_result_log
+--disable_query_log
+--disable_result_log
 use test;
 --echo #Importing measurement number $file_number
 
@@ -8,9 +8,7 @@ use test;
 analyze table measurement;
 analyze table server; 
 commit;
+--enable_query_log
+--enable_result_log
 
-
-
---disable_query_log
---disable_result_log
 --inc $file_number

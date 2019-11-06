@@ -1,0 +1,8 @@
+#File for organizing plugin tests
+
+--disable_query_log
+
+--echo #Running the first test on the standard dataset with different plugin rules
+--source suite/histogram_plugin/t/queries.test
+
+--enable_query_log

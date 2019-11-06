@@ -1,0 +1,84 @@
+
+explain format = tree select * /*"Stale histogram " */ from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id join test.city on test.city.city_id = test.center.cent_city_id where test.measurement.msm_value >80;;
+EXPLAIN
+-> Nested loop inner join
+    -> Nested loop inner join
+        -> Nested loop inner join
+            -> Nested loop inner join
+                -> Filter: (measurement.msm_value > 80.0000)
+                    -> Table scan on measurement
+                -> Single-row index lookup on server using PRIMARY (serv_id=measurement.msm_serv_id)
+            -> Single-row index lookup on rack using PRIMARY (rack_id=`server`.serv_rack_id)
+        -> Filter: (center.cent_city_id is not null)
+            -> Single-row index lookup on center using PRIMARY (cent_id=rack.rack_cent_id)
+    -> Single-row index lookup on city using PRIMARY (city_id=center.cent_city_id)
+
+explain format = tree select * /*"Stale histogram " */ from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id join test.city on test.city.city_id = test.center.cent_city_id where test.measurement.msm_value <80;;
+EXPLAIN
+-> Nested loop inner join
+    -> Nested loop inner join
+        -> Nested loop inner join
+            -> Nested loop inner join
+                -> Index scan on server using serv_rack_id
+                -> Single-row index lookup on rack using PRIMARY (rack_id=`server`.serv_rack_id)
+            -> Filter: (center.cent_city_id is not null)
+                -> Single-row index lookup on center using PRIMARY (cent_id=rack.rack_cent_id)
+        -> Single-row index lookup on city using PRIMARY (city_id=center.cent_city_id)
+    -> Filter: (measurement.msm_value < 80.0000)
+        -> Index lookup on measurement using msm_serv_id (msm_serv_id=`server`.serv_id)
+
+explain format = tree select * /*"Stale histogram " */ from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id join test.city on test.city.city_id = test.center.cent_city_id where test.measurement.msm_value <90;;
+EXPLAIN
+-> Nested loop inner join
+    -> Nested loop inner join
+        -> Nested loop inner join
+            -> Nested loop inner join
+                -> Index scan on server using serv_rack_id
+                -> Single-row index lookup on rack using PRIMARY (rack_id=`server`.serv_rack_id)
+            -> Filter: (center.cent_city_id is not null)
+                -> Single-row index lookup on center using PRIMARY (cent_id=rack.rack_cent_id)
+        -> Single-row index lookup on city using PRIMARY (city_id=center.cent_city_id)
+    -> Filter: (measurement.msm_value < 90.0000)
+        -> Index lookup on measurement using msm_serv_id (msm_serv_id=`server`.serv_id)
+
+explain format = tree select * /*"Stale histogram " */ from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id join test.city on test.city.city_id = test.center.cent_city_id where test.measurement.msm_value >90;;
+EXPLAIN
+-> Nested loop inner join
+    -> Nested loop inner join
+        -> Nested loop inner join
+            -> Nested loop inner join
+                -> Filter: (measurement.msm_value > 90.0000)
+                    -> Table scan on measurement
+                -> Single-row index lookup on server using PRIMARY (serv_id=measurement.msm_serv_id)
+            -> Single-row index lookup on rack using PRIMARY (rack_id=`server`.serv_rack_id)
+        -> Filter: (center.cent_city_id is not null)
+            -> Single-row index lookup on center using PRIMARY (cent_id=rack.rack_cent_id)
+    -> Single-row index lookup on city using PRIMARY (city_id=center.cent_city_id)
+
+explain format = tree select * /*"Stale histogram " */ from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id join test.city on test.city.city_id = test.center.cent_city_id where test.measurement.msm_value between 80 and 100;;
+EXPLAIN
+-> Nested loop inner join
+    -> Nested loop inner join
+        -> Nested loop inner join
+            -> Nested loop inner join
+                -> Filter: (measurement.msm_value between 80 and 100)
+                    -> Table scan on measurement
+                -> Single-row index lookup on server using PRIMARY (serv_id=measurement.msm_serv_id)
+            -> Single-row index lookup on rack using PRIMARY (rack_id=`server`.serv_rack_id)
+        -> Filter: (center.cent_city_id is not null)
+            -> Single-row index lookup on center using PRIMARY (cent_id=rack.rack_cent_id)
+    -> Single-row index lookup on city using PRIMARY (city_id=center.cent_city_id)
+
+explain format = tree select * /*"Stale histogram " */ from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id join test.city on test.city.city_id = test.center.cent_city_id where test.measurement.msm_value between 90 and 100;;
+EXPLAIN
+-> Nested loop inner join
+    -> Nested loop inner join
+        -> Nested loop inner join
+            -> Nested loop inner join
+                -> Filter: (measurement.msm_value between 90 and 100)
+                    -> Table scan on measurement
+                -> Single-row index lookup on server using PRIMARY (serv_id=measurement.msm_serv_id)
+            -> Single-row index lookup on rack using PRIMARY (rack_id=`server`.serv_rack_id)
+        -> Filter: (center.cent_city_id is not null)
+            -> Single-row index lookup on center using PRIMARY (cent_id=rack.rack_cent_id)
+    -> Single-row index lookup on city using PRIMARY (city_id=center.cent_city_id)

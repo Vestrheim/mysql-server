@@ -1,0 +1,11 @@
+use test;
+
+if (!$histogram_plugin_initialized)
+{
+Install Plugin histogram_updater SONAME 'histogram_updater.so';
+
+SET GLOBAL histogram_updater_rule = 0;
+
+--let $histogram_plugin_initialized = 1
+}
+

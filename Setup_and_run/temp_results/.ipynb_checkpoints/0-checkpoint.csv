@@ -1,0 +1,109 @@
+Query	Duration	Returned rows
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546218399.9)and test.measurement.msm_value >15	1.221437	37274
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546218399.9)and test.measurement.msm_value >15	1.232785	37274
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546218399.9)and test.measurement.msm_value >15	1.218460	37274
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546218399.9)and test.measurement.msm_value >15	1.217043	37274
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546218399.9)and test.measurement.msm_value >15	1.222410	37274
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546218399.9)and test.measurement.msm_value >15	1.216376	37274
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546218399.9)and test.measurement.msm_value >15	1.216212	37274
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546218399.9)and test.measurement.msm_value >15	1.218275	37274
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546218399.9)and test.measurement.msm_value >15	1.234137	37274
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546301199.9)and test.measurement.msm_value >15	1.158125	35285
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546301199.9)and test.measurement.msm_value >15	1.166860	35285
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546301199.9)and test.measurement.msm_value >15	1.157732	35285
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546301199.9)and test.measurement.msm_value >15	1.163158	35285
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546301199.9)and test.measurement.msm_value >15	1.167278	35285
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546301199.9)and test.measurement.msm_value >15	1.161581	35285
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546301199.9)and test.measurement.msm_value >15	1.181468	35285
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546301199.9)and test.measurement.msm_value >15	1.157583	35285
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546301199.9)and test.measurement.msm_value >15	1.162140	35285
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546218399.9)and test.measurement.msm_value >15	0.924290	37274
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546218399.9)and test.measurement.msm_value >15	0.910434	37274
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546218399.9)and test.measurement.msm_value >15	0.909224	37274
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546218399.9)and test.measurement.msm_value >15	0.910374	37274
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546218399.9)and test.measurement.msm_value >15	0.909451	37274
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546218399.9)and test.measurement.msm_value >15	0.910455	37274
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546218399.9)and test.measurement.msm_value >15	0.910780	37274
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546218399.9)and test.measurement.msm_value >15	0.909727	37274
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546218399.9)and test.measurement.msm_value >15	0.912878	37274
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546301199.9)and test.measurement.msm_value >15	0.865514	35285
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546301199.9)and test.measurement.msm_value >15	0.871989	35285
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546301199.9)and test.measurement.msm_value >15	0.873886	35285
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546301199.9)and test.measurement.msm_value >15	0.874021	35285
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546301199.9)and test.measurement.msm_value >15	0.892622	35285
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546301199.9)and test.measurement.msm_value >15	0.877813	35285
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546301199.9)and test.measurement.msm_value >15	0.875898	35285
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546301199.9)and test.measurement.msm_value >15	0.869979	35285
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546301199.9)and test.measurement.msm_value >15	0.865233	35285
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546218399.9)and test.measurement.msm_value >15	0.599893	37274
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546218399.9)and test.measurement.msm_value >15	0.598566	37274
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546218399.9)and test.measurement.msm_value >15	0.599440	37274
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546218399.9)and test.measurement.msm_value >15	0.599651	37274
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546218399.9)and test.measurement.msm_value >15	0.599855	37274
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546218399.9)and test.measurement.msm_value >15	0.600047	37274
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546218399.9)and test.measurement.msm_value >15	0.598333	37274
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546218399.9)and test.measurement.msm_value >15	0.597291	37274
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546218399.9)and test.measurement.msm_value >15	0.600515	37274
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546301199.9)and test.measurement.msm_value >15	0.575243	35285
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546301199.9)and test.measurement.msm_value >15	0.570404	35285
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546301199.9)and test.measurement.msm_value >15	0.575436	35285
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546301199.9)and test.measurement.msm_value >15	0.581422	35285
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546301199.9)and test.measurement.msm_value >15	0.576502	35285
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546301199.9)and test.measurement.msm_value >15	0.586937	35285
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546301199.9)and test.measurement.msm_value >15	0.572269	35285
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546301199.9)and test.measurement.msm_value >15	0.571797	35285
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546301199.9)and test.measurement.msm_value >15	0.572813	35285
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546218399.9)	0.206427	40000
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546218399.9)	0.206663	40000
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546218399.9)	0.206871	40000
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546218399.9)	0.206959	40000
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546218399.9)	0.206781	40000
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546218399.9)	0.206413	40000
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546218399.9)	0.206346	40000
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546218399.9)	0.206369	40000
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546218399.9)	0.206317	40000
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546218399.9) and test.measurement.msm_value >15	0.213678	37274
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546218399.9) and test.measurement.msm_value >15	0.213450	37274
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546218399.9) and test.measurement.msm_value >15	0.212990	37274
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546218399.9) and test.measurement.msm_value >15	0.214032	37274
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546218399.9) and test.measurement.msm_value >15	0.214273	37274
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546218399.9) and test.measurement.msm_value >15	0.213549	37274
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546218399.9) and test.measurement.msm_value >15	0.214068	37274
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546218399.9) and test.measurement.msm_value >15	0.213262	37274
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546218399.9) and test.measurement.msm_value >15	0.212826	37274
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546301199.9)	0.202208	36000
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546301199.9)	0.203049	36000
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546301199.9)	0.198024	36000
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546301199.9)	0.208966	36000
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546301199.9)	0.203078	36000
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546301199.9)	0.198005	36000
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546301199.9)	0.198378	36000
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546301199.9)	0.198441	36000
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546301199.9)	0.198147	36000
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546301199.9) and test.measurement.msm_value >15	0.213056	35285
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546301199.9) and test.measurement.msm_value >15	0.212541	35285
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546301199.9) and test.measurement.msm_value >15	0.214443	35285
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546301199.9) and test.measurement.msm_value >15	0.208545	35285
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546301199.9) and test.measurement.msm_value >15	0.207696	35285
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546301199.9) and test.measurement.msm_value >15	0.208386	35285
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546301199.9) and test.measurement.msm_value >15	0.208589	35285
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546301199.9) and test.measurement.msm_value >15	0.207965	35285
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546301199.9) and test.measurement.msm_value >15	0.208171	35285
+select * from test.measurement where test.measurement.msm_value < 15	0.139573	2726
+select * from test.measurement where test.measurement.msm_value < 15	0.139591	2726
+select * from test.measurement where test.measurement.msm_value < 15	0.139870	2726
+select * from test.measurement where test.measurement.msm_value < 15	0.140608	2726
+select * from test.measurement where test.measurement.msm_value < 15	0.142648	2726
+select * from test.measurement where test.measurement.msm_value < 15	0.140274	2726
+select * from test.measurement where test.measurement.msm_value < 15	0.139704	2726
+select * from test.measurement where test.measurement.msm_value < 15	0.140510	2726
+select * from test.measurement where test.measurement.msm_value < 15	0.140649	2726
+select * from test.measurement where test.measurement.msm_value > 15	0.211455	37274
+select * from test.measurement where test.measurement.msm_value > 15	0.207124	37274
+select * from test.measurement where test.measurement.msm_value > 15	0.206340	37274
+select * from test.measurement where test.measurement.msm_value > 15	0.209821	37274
+select * from test.measurement where test.measurement.msm_value > 15	0.206888	37274
+select * from test.measurement where test.measurement.msm_value > 15	0.206058	37274
+select * from test.measurement where test.measurement.msm_value > 15	0.206256	37274
+select * from test.measurement where test.measurement.msm_value > 15	0.207045	37274
+select * from test.measurement where test.measurement.msm_value > 15	0.206474	37274

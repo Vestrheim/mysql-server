@@ -46,6 +46,37 @@
 #include "plugin/histogram_updater/internal_query/internal_query_session.h"
 #include "plugin/histogram_updater/internal_query/sql_resultset.h"
 #include "plugin/histogram_updater/helpers.h"
+#include "plugin/histogram_updater/histogram_updater.h"
+
+#define PLUGIN_NAME "Histrogram Updater"
+
+//Declare internal variables
+
+
+/// Updater function for the status variable ..._rule.
+static void update_rule(MYSQL_THD, SYS_VAR *, void *, const void *save) {
+    sys_var_update_rule = *static_cast<const int *>(save);
+}
+
+
+static MYSQL_SYSVAR_INT(rule,              // Name.
+                        sys_var_update_rule,      // Variable.
+                        PLUGIN_VAR_NOCMDARG,  // Not a command-line argument.
+                        "Tells " PLUGIN_NAME " what updating rule should be followed",
+                        NULL,            // Check function.
+                        update_rule,  // Update function.
+                        0,               // Default value.
+                        0,               // Min value.
+                        2,               // Max value.
+                        1                // Block size.
+                        );
+
+
+SYS_VAR *histogram_rewriter_plugin_sys_vars[] = {MYSQL_SYSVAR(rule), NULL};
+
+
+static int histogram_updater_notify(MYSQL_THD thd, mysql_event_class_t event_class,
+                                const void *event);
 
 /* instrument the memory allocation */
 #ifdef HAVE_PSI_INTERFACE
@@ -58,6 +89,10 @@ static int plugin_init(MYSQL_PLUGIN) {
   const char *category = "sql";
   int count;
   count = static_cast<int>(array_elements(all_rewrite_memory));
+  rule_2_counter = 0;       //Init counters to 0
+  rule_3_counter = 0;
+
+  sys_var_update_rule = 0;      // Intialise with the rule set to don't update histograms.
 
   /*
   MYSQL_THD thd;
@@ -78,6 +113,39 @@ static int plugin_init(MYSQL_PLUGIN) {
 #define key_memory_lundgren PSI_NOT_INSTRUMENTED
 #endif /* HAVE_PSI_INTERFACE */
 
+
+
+/* Audit plugin descriptor */
+static struct st_mysql_audit lundgren_descriptor = {
+        MYSQL_AUDIT_INTERFACE_VERSION, /* interface version */
+        NULL,                          /* release_thd()     */
+        histogram_updater_notify,      /* event_notify()    */
+        {
+                0,
+                0,
+                (unsigned long)MYSQL_AUDIT_PARSE_ALL,
+        } /* class mask        */
+};
+
+/* Plugin descriptor */
+mysql_declare_plugin(audit_log){
+        MYSQL_AUDIT_PLUGIN,   /* plugin type                   */
+        &lundgren_descriptor, /* type specific descriptor      */
+        "histogram_updater",           /* plugin name                   */
+        "Sevre Vestrheim", /* author */
+        "Histogram updater plugin", /* description                   */
+        PLUGIN_LICENSE_GPL,         /* license                       */
+        plugin_init,                /* plugin initializer            */
+        NULL,                       /* plugin check uninstall        */
+        NULL,                       /* plugin deinitializer          */
+        0x0001,                     /* version                       */
+        NULL,                       /* status variables              */
+        histogram_rewriter_plugin_sys_vars, /* system variables              */
+        NULL,                       /* reserverd                     */
+        0                           /* flags                         */
+} mysql_declare_plugin_end;
+
+
 void connect_and_run(const char* table)
 {
     Internal_query_session *session = new Internal_query_session();
@@ -85,35 +153,41 @@ void connect_and_run(const char* table)
     char query[200];
     strcpy(query,"Analyze table ");
     strcat(query,table);
-    strcat(query," Update histogram on text");
-   // std::string builder = "Analyze table ";
-   // builder += table;
-   // builder += " Update histograms on text";
-   // const char* query = builder.c_str();
-    Sql_resultset *resultset = session->execute_query(query);   //Analyze table tester Update histograms on text
+    strcat(query," Update histogram on msm_value");
+    // std::string builder = "Analyze table ";
+    // builder += table;
+    // builder += " Update histograms on text";
+    // const char* query = builder.c_str();
+    Sql_resultset *resultset = session->execute_query(query);   //Analyze table measurement Update histograms on msm_value
     delete session;
 
 }
 
-static int lundgren_start(MYSQL_THD thd, mysql_event_class_t event_class,
-                          const void *event) {
+/**
+  Entry point to the plugin. The server calls this function after each parsed
+  query when the plugin is active.
+*/
+
+static int histogram_updater_notify(MYSQL_THD thd, mysql_event_class_t event_class,
+                                   const void *event) {
   if (event_class == MYSQL_AUDIT_PARSE_CLASS) {
     const struct mysql_event_parse *event_parse =
         static_cast<const struct mysql_event_parse *>(event);
-    if (event_parse->event_subclass == MYSQL_AUDIT_PARSE_POSTPARSE) {
-
-
-      if (!
-      (thd, event_parse->query.str)) {
-        return 0;
-      }
-
-      L_Parser_info *parser_info = get_tables_from_parse_tree(thd);
-
-      const char* table_name = parser_info->tables[0].name.c_str();
-
-      connect_and_run(table_name);
+    if (event_parse->event_subclass != MYSQL_AUDIT_PARSE_POSTPARSE || sys_var_update_rule == 0) {
+        return 0;       //if we don't match our event class or the update rule is 0 then don't do anything.
     }
+
+    if (!update_histograms(thd, event_parse->query.str,sys_var_update_rule)) {
+        return 0;
+    }
+
+    L_Parser_info *parser_info = get_tables_from_parse_tree(thd);
+
+    const char* table_name = parser_info->tables[0].name.c_str();
+
+    // connect_and_run(table_name); we used to do this, but we only want to update historams on one table, so let's simply this for ourselves
+    connect_and_run("measurement");
+
   }
 
   return 0;
@@ -121,32 +195,5 @@ static int lundgren_start(MYSQL_THD thd, mysql_event_class_t event_class,
 
 
 
-/* Audit plugin descriptor */
-static struct st_mysql_audit lundgren_descriptor = {
-    MYSQL_AUDIT_INTERFACE_VERSION, /* interface version */
-    NULL,                          /* release_thd()     */
-    lundgren_start,                /* event_notify()    */
-    {
-        0,
-        0,
-        (unsigned long)MYSQL_AUDIT_PARSE_ALL,
-    } /* class mask        */
-};
 
-/* Plugin descriptor */
-mysql_declare_plugin(audit_log){
-    MYSQL_AUDIT_PLUGIN,   /* plugin type                   */
-    &lundgren_descriptor, /* type specific descriptor      */
-    "histogram_updater",           /* plugin name                   */
-    "Sevre Vestrheim", /* author */
-    "Histogram updater plugin", /* description                   */
-    PLUGIN_LICENSE_GPL,         /* license                       */
-    plugin_init,                /* plugin initializer            */
-    NULL,                       /* plugin check uninstall        */
-    NULL,                       /* plugin deinitializer          */
-    0x0001,                     /* version                       */
-    NULL,                       /* status variables              */
-    NULL,                       /* system variables              */
-    NULL,                       /* reserverd                     */
-    0                           /* flags                         */
-} mysql_declare_plugin_end;
+

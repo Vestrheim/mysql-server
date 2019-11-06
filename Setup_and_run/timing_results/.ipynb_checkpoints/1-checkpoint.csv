@@ -1,0 +1,128 @@
+Query	Duration	Returned rows	Test type
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546215399.9)and test.measurement.msm_value >15	0.248815	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546215399.9)and test.measurement.msm_value >15	0.249083	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546215399.9)and test.measurement.msm_value >15	0.253669	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546215399.9)and test.measurement.msm_value >15	0.249933	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546215399.9)and test.measurement.msm_value >15	0.252043	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546215399.9)and test.measurement.msm_value >15	0.248173	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546215399.9)and test.measurement.msm_value >15	0.257782	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546215399.9)and test.measurement.msm_value >15	0.253529	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546215399.9)and test.measurement.msm_value >15	0.249256	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546298199.9)and test.measurement.msm_value >15	0.249142	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546298199.9)and test.measurement.msm_value >15	0.246255	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546298199.9)and test.measurement.msm_value >15	0.255547	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546298199.9)and test.measurement.msm_value >15	0.250058	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546298199.9)and test.measurement.msm_value >15	0.256926	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546298199.9)and test.measurement.msm_value >15	0.254106	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546298199.9)and test.measurement.msm_value >15	0.250929	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546298199.9)and test.measurement.msm_value >15	0.250076	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id where test.measurement.msm_datetime>from_unixtime(1546298199.9)and test.measurement.msm_value >15	0.248653	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546215399.9)and test.measurement.msm_value >15	0.192012	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546215399.9)and test.measurement.msm_value >15	0.189453	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546215399.9)and test.measurement.msm_value >15	0.195988	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measureme;nt.msm_datetime>from_unixtime(1546215399.9)and test.measurement.msm_value >15	0.189349	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546215399.9)and test.measurement.msm_value >15	0.188939	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546215399.9)and test.measurement.msm_value >15	0.190092	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546215399.9)and test.measurement.msm_value >15	0.194355	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546215399.9)and test.measurement.msm_value >15	0.188632	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546215399.9)and test.measurement.msm_value >15	0.189303	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546298199.9)and test.measurement.msm_value >15	0.189856	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546298199.9)and test.measurement.msm_value >15	0.188139	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546298199.9)and test.measurement.msm_value >15	0.190930	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546298199.9)and test.measurement.msm_value >15	0.187510	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546298199.9)and test.measurement.msm_value >15	0.189869	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546298199.9)and test.measurement.msm_value >15	0.193123	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546298199.9)and test.measurement.msm_value >15	0.189693	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546298199.9)and test.measurement.msm_value >15	0.188837	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id where test.measurement.msm_datetime>from_unixtime(1546298199.9)and test.measurement.msm_value >15	0.189432	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546215399.9)and test.measurement.msm_value >15	0.128913	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546215399.9)and test.measurement.msm_value >15	0.126843	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546215399.9)and test.measurement.msm_value >15	0.127198	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546215399.9)and test.measurement.msm_value >15	0.129991	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546215399.9)and test.measurement.msm_value >15	0.127767	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546215399.9)and test.measurement.msm_value >15	0.126716	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546215399.9)and test.measurement.msm_value >15	0.127890	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546215399.9)and test.measurement.msm_value >15	0.126987	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546215399.9)and test.measurement.msm_value >15	0.126791	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546298199.9)and test.measurement.msm_value >15	0.127207	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546298199.9)and test.measurement.msm_value >15	0.126754	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546298199.9)and test.measurement.msm_value >15	0.127381	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546298199.9)and test.measurement.msm_value >15	0.127540	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546298199.9)and test.measurement.msm_value >15	0.130048	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546298199.9)and test.measurement.msm_value >15	0.127444	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546298199.9)and test.measurement.msm_value >15	0.130042	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546298199.9)and test.measurement.msm_value >15	0.126835	7275	Histogram No index
+select * from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id where test.measurement.msm_datetime>from_unixtime(1546298199.9)and test.measurement.msm_value >15	0.128063	7275	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546215399.9)	0.052544	10000	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546215399.9)	0.052422	10000	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546215399.9)	0.052390	10000	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546215399.9)	0.052705	10000	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546215399.9)	0.052247	10000	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546215399.9)	0.052208	10000	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546215399.9)	0.052225	10000	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546215399.9)	0.052226	10000	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546215399.9)	0.052347	10000	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546215399.9) and test.measurement.msm_value >15	0.050052	7275	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546215399.9) and test.measurement.msm_value >15	0.050108	7275	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546215399.9) and test.measurement.msm_value >15	0.050093	7275	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546215399.9) and test.measurement.msm_value >15	0.049781	7275	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546215399.9) and test.measurement.msm_value >15	0.050276	7275	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546215399.9) and test.measurement.msm_value >15	0.050188	7275	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546215399.9) and test.measurement.msm_value >15	0.049954	7275	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546215399.9) and test.measurement.msm_value >15	0.050514	7275	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546215399.9) and test.measurement.msm_value >15	0.050095	7275	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546298199.9)	0.052104	10000	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546298199.9)	0.053107	10000	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546298199.9)	0.054646	10000	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546298199.9)	0.052344	10000	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546298199.9)	0.054092	10000	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546298199.9)	0.052107	10000	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546298199.9)	0.052287	10000	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546298199.9)	0.052812	10000	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546298199.9)	0.052563	10000	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546298199.9) and test.measurement.msm_value >15	0.049952	7275	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546298199.9) and test.measurement.msm_value >15	0.050080	7275	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546298199.9) and test.measurement.msm_value >15	0.049871	7275	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546298199.9) and test.measurement.msm_value >15	0.050128	7275	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546298199.9) and test.measurement.msm_value >15	0.051880	7275	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546298199.9) and test.measurement.msm_value >15	0.051533	7275	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546298199.9) and test.measurement.msm_value >15	0.049898	7275	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546298199.9) and test.measurement.msm_value >15	0.049983	7275	Histogram No index
+select * from test.measurement where test.measurement.msm_datetime>from_unixtime(1546298199.9) and test.measurement.msm_value >15	0.049953	7275	Histogram No index
+select * from test.measurement where test.measurement.msm_value < 15	0.039304	2725	Histogram No index
+select * from test.measurement where test.measurement.msm_value < 15	0.039368	2725	Histogram No index
+select * from test.measurement where test.measurement.msm_value < 15	0.039643	2725	Histogram No index
+select * from test.measurement where test.measurement.msm_value < 15	0.039611	2725	Histogram No index
+select * from test.measurement where test.measurement.msm_value < 15	0.039360	2725	Histogram No index
+select * from test.measurement where test.measurement.msm_value < 15	0.040182	2725	Histogram No index
+select * from test.measurement where test.measurement.msm_value < 15	0.039500	2725	Histogram No index
+select * from test.measurement where test.measurement.msm_value < 15	0.039284	2725	Histogram No index
+select * from test.measurement where test.measurement.msm_value < 15	0.039721	2725	Histogram No index
+select * from test.measurement where test.measurement.msm_value > 15	0.048087	7275	Histogram No index
+select * from test.measurement where test.measurement.msm_value > 15	0.048295	7275	Histogram No index
+select * from test.measurement where test.measurement.msm_value > 15	0.048961	7275	Histogram No index
+select * from test.measurement where test.measurement.msm_value > 15	0.048644	7275	Histogram No index
+select * from test.measurement where test.measurement.msm_value > 15	0.048195	7275	Histogram No index
+select * from test.measurement where test.measurement.msm_value > 15	0.048739	7275	Histogram No index
+select * from test.measurement where test.measurement.msm_value > 15	0.048728	7275	Histogram No index
+select * from test.measurement where test.measurement.msm_value > 15	0.048838	7275	Histogram No index
+select * from test.measurement where test.measurement.msm_value > 15	0.048107	7275	Histogram No index
+select * from test.measurement where test.measurement.msm_value between 13 and 15	0.039982	2604	Histogram No index
+select * from test.measurement where test.measurement.msm_value between 13 and 15	0.039998	2604	Histogram No index
+select * from test.measurement where test.measurement.msm_value between 13 and 15	0.040626	2604	Histogram No index
+select * from test.measurement where test.measurement.msm_value between 13 and 15	0.040554	2604	Histogram No index
+select * from test.measurement where test.measurement.msm_value between 13 and 15	0.040155	2604	Histogram No index
+select * from test.measurement where test.measurement.msm_value between 13 and 15	0.040075	2604	Histogram No index
+select * from test.measurement where test.measurement.msm_value between 13 and 15	0.040379	2604	Histogram No index
+select * from test.measurement where test.measurement.msm_value between 13 and 15	0.040305	2604	Histogram No index
+select * from test.measurement where test.measurement.msm_value between 13 and 15	0.040189	2604	Histogram No index
+select * from test.measurement where test.measurement.msm_value between 15 and 20	0.049514	7273	Histogram No index
+select * from test.measurement where test.measurement.msm_value between 15 and 20	0.049065	7273	Histogram No index
+select * from test.measurement where test.measurement.msm_value between 15 and 20	0.049947	7273	Histogram No index
+select * from test.measurement where test.measurement.msm_value between 15 and 20	0.050181	7273	Histogram No index
+select * from test.measurement where test.measurement.msm_value between 15 and 20	0.049322	7273	Histogram No index
+select * from test.measurement where test.measurement.msm_value between 15 and 20	0.049201	7273	Histogram No index
+select * from test.measurement where test.measurement.msm_value between 15 and 20	0.049254	7273	Histogram No index
+select * from test.measurement where test.measurement.msm_value between 15 and 20	0.049194	7273	Histogram No index
+select * from test.measurement where test.measurement.msm_value between 15 and 20	0.049194	7273	Histogram No index
+removing histograms

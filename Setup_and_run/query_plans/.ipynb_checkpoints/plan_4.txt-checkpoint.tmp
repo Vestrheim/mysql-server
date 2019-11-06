@@ -1,0 +1,110 @@
+
+explain format = tree select * /*"No histogram " */ from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id join test.city on test.city.city_id = test.center.cent_city_id where test.measurement.msm_value >80;;
+EXPLAIN
+-> Nested loop inner join
+    -> Nested loop inner join
+        -> Nested loop inner join
+            -> Nested loop inner join
+                -> Filter: (measurement.msm_value > 80.0000)
+                    -> Table scan on measurement
+                -> Single-row index lookup on server using PRIMARY (serv_id=measurement.msm_serv_id)
+            -> Single-row index lookup on rack using PRIMARY (rack_id=`server`.serv_rack_id)
+        -> Filter: (center.cent_city_id is not null)
+            -> Single-row index lookup on center using PRIMARY (cent_id=rack.rack_cent_id)
+    -> Single-row index lookup on city using PRIMARY (city_id=center.cent_city_id)
+
+explain select * /*"No histogram " */ from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id join test.city on test.city.city_id = test.center.cent_city_id where test.measurement.msm_value >80;;
+id	select_type	table	partitions	type	possible_keys	key	key_len	ref	rows	filtered	Extra
+1	SIMPLE	measurement	NULL	ALL	msm_serv_id	NULL	NULL	NULL	24678	33.33	Using where
+1	SIMPLE	server	NULL	eq_ref	PRIMARY,serv_rack_id	PRIMARY	4	test.measurement.msm_serv_id	1	100.00	NULL
+1	SIMPLE	rack	NULL	eq_ref	PRIMARY,rack_cent_id	PRIMARY	4	test.server.serv_rack_id	1	100.00	NULL
+1	SIMPLE	center	NULL	eq_ref	PRIMARY,cent_city_id	PRIMARY	4	test.rack.rack_cent_id	1	100.00	Using where
+1	SIMPLE	city	NULL	eq_ref	PRIMARY	PRIMARY	4	test.center.cent_city_id	1	100.00	NULL
+
+explain format = tree select * /*"No histogram " */ from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id join test.city on test.city.city_id = test.center.cent_city_id where test.measurement.msm_value <80;;
+EXPLAIN
+-> Nested loop inner join
+    -> Nested loop inner join
+        -> Nested loop inner join
+            -> Nested loop inner join
+                -> Filter: (measurement.msm_value < 80.0000)
+                    -> Table scan on measurement
+                -> Single-row index lookup on server using PRIMARY (serv_id=measurement.msm_serv_id)
+            -> Single-row index lookup on rack using PRIMARY (rack_id=`server`.serv_rack_id)
+        -> Filter: (center.cent_city_id is not null)
+            -> Single-row index lookup on center using PRIMARY (cent_id=rack.rack_cent_id)
+    -> Single-row index lookup on city using PRIMARY (city_id=center.cent_city_id)
+
+explain select * /*"No histogram " */ from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id join test.city on test.city.city_id = test.center.cent_city_id where test.measurement.msm_value <80;;
+id	select_type	table	partitions	type	possible_keys	key	key_len	ref	rows	filtered	Extra
+1	SIMPLE	measurement	NULL	ALL	msm_serv_id	NULL	NULL	NULL	24678	33.33	Using where
+1	SIMPLE	server	NULL	eq_ref	PRIMARY,serv_rack_id	PRIMARY	4	test.measurement.msm_serv_id	1	100.00	NULL
+1	SIMPLE	rack	NULL	eq_ref	PRIMARY,rack_cent_id	PRIMARY	4	test.server.serv_rack_id	1	100.00	NULL
+1	SIMPLE	center	NULL	eq_ref	PRIMARY,cent_city_id	PRIMARY	4	test.rack.rack_cent_id	1	100.00	Using where
+1	SIMPLE	city	NULL	eq_ref	PRIMARY	PRIMARY	4	test.center.cent_city_id	1	100.00	NULL
+
+explain format = tree select * /*"No histogram " */ from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id join test.city on test.city.city_id = test.center.cent_city_id where test.measurement.msm_value <90;;
+EXPLAIN
+-> Nested loop inner join
+    -> Nested loop inner join
+        -> Nested loop inner join
+            -> Nested loop inner join
+                -> Filter: (measurement.msm_value < 90.0000)
+                    -> Table scan on measurement
+                -> Single-row index lookup on server using PRIMARY (serv_id=measurement.msm_serv_id)
+            -> Single-row index lookup on rack using PRIMARY (rack_id=`server`.serv_rack_id)
+        -> Filter: (center.cent_city_id is not null)
+            -> Single-row index lookup on center using PRIMARY (cent_id=rack.rack_cent_id)
+    -> Single-row index lookup on city using PRIMARY (city_id=center.cent_city_id)
+
+explain select * /*"No histogram " */ from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id join test.city on test.city.city_id = test.center.cent_city_id where test.measurement.msm_value <90;;
+id	select_type	table	partitions	type	possible_keys	key	key_len	ref	rows	filtered	Extra
+1	SIMPLE	measurement	NULL	ALL	msm_serv_id	NULL	NULL	NULL	24678	33.33	Using where
+1	SIMPLE	server	NULL	eq_ref	PRIMARY,serv_rack_id	PRIMARY	4	test.measurement.msm_serv_id	1	100.00	NULL
+1	SIMPLE	rack	NULL	eq_ref	PRIMARY,rack_cent_id	PRIMARY	4	test.server.serv_rack_id	1	100.00	NULL
+1	SIMPLE	center	NULL	eq_ref	PRIMARY,cent_city_id	PRIMARY	4	test.rack.rack_cent_id	1	100.00	Using where
+1	SIMPLE	city	NULL	eq_ref	PRIMARY	PRIMARY	4	test.center.cent_city_id	1	100.00	NULL
+
+explain format = tree select * /*"No histogram " */ from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id join test.city on test.city.city_id = test.center.cent_city_id where test.measurement.msm_value >90;;
+EXPLAIN
+-> Nested loop inner join
+    -> Nested loop inner join
+        -> Nested loop inner join
+            -> Nested loop inner join
+                -> Filter: (measurement.msm_value > 90.0000)
+                    -> Table scan on measurement
+                -> Single-row index lookup on server using PRIMARY (serv_id=measurement.msm_serv_id)
+            -> Single-row index lookup on rack using PRIMARY (rack_id=`server`.serv_rack_id)
+        -> Filter: (center.cent_city_id is not null)
+            -> Single-row index lookup on center using PRIMARY (cent_id=rack.rack_cent_id)
+    -> Single-row index lookup on city using PRIMARY (city_id=center.cent_city_id)
+
+explain select * /*"No histogram " */ from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id join test.city on test.city.city_id = test.center.cent_city_id where test.measurement.msm_value >90;;
+id	select_type	table	partitions	type	possible_keys	key	key_len	ref	rows	filtered	Extra
+1	SIMPLE	measurement	NULL	ALL	msm_serv_id	NULL	NULL	NULL	24678	33.33	Using where
+1	SIMPLE	server	NULL	eq_ref	PRIMARY,serv_rack_id	PRIMARY	4	test.measurement.msm_serv_id	1	100.00	NULL
+1	SIMPLE	rack	NULL	eq_ref	PRIMARY,rack_cent_id	PRIMARY	4	test.server.serv_rack_id	1	100.00	NULL
+1	SIMPLE	center	NULL	eq_ref	PRIMARY,cent_city_id	PRIMARY	4	test.rack.rack_cent_id	1	100.00	Using where
+1	SIMPLE	city	NULL	eq_ref	PRIMARY	PRIMARY	4	test.center.cent_city_id	1	100.00	NULL
+
+explain format = tree select * /*"No histogram " */ from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id join test.city on test.city.city_id = test.center.cent_city_id where test.measurement.msm_value between 80 and 100;;
+EXPLAIN
+-> Nested loop inner join
+    -> Nested loop inner join
+        -> Nested loop inner join
+            -> Nested loop inner join
+                -> Filter: (measurement.msm_value between 80 and 100)
+                    -> Table scan on measurement
+                -> Single-row index lookup on server using PRIMARY (serv_id=measurement.msm_serv_id)
+            -> Single-row index lookup on rack using PRIMARY (rack_id=`server`.serv_rack_id)
+        -> Filter: (center.cent_city_id is not null)
+            -> Single-row index lookup on center using PRIMARY (cent_id=rack.rack_cent_id)
+    -> Single-row index lookup on city using PRIMARY (city_id=center.cent_city_id)
+
+explain select * /*"No histogram " */ from test.measurement join test.server on test.measurement.msm_serv_id = test.server.serv_id join test.rack on test.rack.rack_id = test.server.serv_rack_id join test.center on test.center.cent_id = test.rack.rack_cent_id join test.city on test.city.city_id = test.center.cent_city_id where test.measurement.msm_value between 80 and 100;;
+id	select_type	table	partitions	type	possible_keys	key	key_len	ref	rows	filtered	Extra
+1	SIMPLE	measurement	NULL	ALL	msm_serv_id	NULL	NULL	NULL	24678	11.11	Using where
+1	SIMPLE	server	NULL	eq_ref	PRIMARY,serv_rack_id	PRIMARY	4	test.measurement.msm_serv_id	1	100.00	NULL
+1	SIMPLE	rack	NULL	eq_ref	PRIMARY,rack_cent_id	PRIMARY	4	test.server.serv_rack_id	1	100.00	NULL
+1	SIMPLE	center	NULL	eq_ref	PRIMARY,cent_city_id	PRIMARY	4	test.rack.rack_cent_id	1	100.00	Using where
+1	SIMPLE	city	NULL	eq_ref	PRIMARY	PRIMARY	4	test.center.cent_city_id	1	100.00	NULL

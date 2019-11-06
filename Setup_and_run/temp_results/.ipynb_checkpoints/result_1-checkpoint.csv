@@ -1,0 +1,113 @@
+Query	Duration	Returned rows
+select * from test.country	0.008530	2500
+select * from test.country	0.008503	2500
+select * from test.country	0.008682	2500
+select * from test.country	0.008545	2500
+select * from test.department	0.042440	10000
+select * from test.department	0.044209	10000
+select * from test.department	0.041924	10000
+select * from test.department	0.042344	10000
+select * from test.employee	0.044780	10000
+select * from test.employee	0.046475	10000
+select * from test.employee	0.044546	10000
+select * from test.employee	0.044525	10000
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id	0.156332	10000
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id	0.155511	10000
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id	0.156532	10000
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id	0.159412	10000
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id join test.country on test.country.country_id = test.location.country_id where test.country.country_id < 500	0.732560	5694
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id join test.country on test.country.country_id = test.location.country_id where test.country.country_id < 500	0.752180	5694
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id join test.country on test.country.country_id = test.location.country_id where test.country.country_id < 500	0.740743	5694
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id join test.country on test.country.country_id = test.location.country_id where test.country.country_id < 500	0.742777	5694
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id join test.country on test.country.country_id = test.location.country_id where test.country.country_id > 500	0.530604	4297
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id join test.country on test.country.country_id = test.location.country_id where test.country.country_id > 500	0.555324	4297
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id join test.country on test.country.country_id = test.location.country_id where test.country.country_id > 500	0.532011	4297
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id join test.country on test.country.country_id = test.location.country_id where test.country.country_id > 500	0.533815	4297
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id join test.country on test.country.country_id = test.location.country_id where test.country.country_name < 500	0.707463	7200
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id join test.country on test.country.country_id = test.location.country_id where test.country.country_name < 500	0.706213	7200
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id join test.country on test.country.country_id = test.location.country_id where test.country.country_name < 500	0.711513	7200
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id join test.country on test.country.country_id = test.location.country_id where test.country.country_name < 500	0.713106	7200
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id join test.country on test.country.country_id = test.location.country_id where test.country.country_name > 500	0.572644	4376
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id join test.country on test.country.country_id = test.location.country_id where test.country.country_name > 500	0.572283	4376
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id join test.country on test.country.country_id = test.location.country_id where test.country.country_name > 500	0.568537	4376
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id join test.country on test.country.country_id = test.location.country_id where test.country.country_name > 500	0.569993	4376
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id join test.country on test.country.country_id = test.location.country_id where test.country.country_name between 100 and 1000	0.329373	8996
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id join test.country on test.country.country_id = test.location.country_id where test.country.country_name between 100 and 1000	0.332878	8996
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id join test.country on test.country.country_id = test.location.country_id where test.country.country_name between 100 and 1000	0.331027	8996
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id join test.country on test.country.country_id = test.location.country_id where test.country.country_name between 100 and 1000	0.329671	8996
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_id < 10	0.003493	33
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_id < 10	0.003383	33
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_id < 10	0.003476	33
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_id < 10	0.003373	33
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_id > 10	0.252744	9966
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_id > 10	0.253618	9966
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_id > 10	0.252092	9966
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_id > 10	0.256522	9966
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_name <10	0.015207	3
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_name <10	0.015493	3
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_name <10	0.015005	3
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_name <10	0.015041	3
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_name <4900	0.249163	10000
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_name <4900	0.251454	10000
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_name <4900	0.251125	10000
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_name <4900	0.256910	10000
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_name >10	0.251103	9997
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_name >10	0.248984	9997
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_name >10	0.250715	9997
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_name >10	0.252577	9997
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_name >4900	0.014715	0
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_name >4900	0.014887	0
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_name >4900	0.014727	0
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_name >4900	0.014573	0
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_name between 50 and 1500	0.242245	8016
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_name between 50 and 1500	0.243496	8016
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_name between 50 and 1500	0.244112	8016
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id join test.location on test.location.location_id = test.department.dept_location_id where test.location.location_name between 50 and 1500	0.242488	8016
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_location_id < 15000	0.159967	10000
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_location_id < 15000	0.163908	10000
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_location_id < 15000	0.158019	10000
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_location_id < 15000	0.158558	10000
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_location_id > 1500	0.146880	6998
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_location_id > 1500	0.148140	6998
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_location_id > 1500	0.148709	6998
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_location_id > 1500	0.149226	6998
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_location_id between 1500 and 15000	0.150716	6998
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_location_id between 1500 and 15000	0.146871	6998
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_location_id between 1500 and 15000	0.149813	6998
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_location_id between 1500 and 15000	0.149030	6998
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_name <1500	0.137756	4093
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_name <1500	0.138385	4093
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_name <1500	0.138783	4093
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_name <1500	0.137381	4093
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_name >1500	0.143582	5904
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_name >1500	0.144240	5904
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_name >1500	0.144034	5904
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_name >1500	0.144700	5904
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_name between 500 and 2500	0.145184	6355
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_name between 500 and 2500	0.146100	6355
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_name between 500 and 2500	0.146282	6355
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.department.dept_name between 500 and 2500	0.147124	6355
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.employee.department_id < 1500	0.179120	3956
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.employee.department_id < 1500	0.178094	3956
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.employee.department_id < 1500	0.176423	3956
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.employee.department_id < 1500	0.177014	3956
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.employee.department_id > 1500	0.112774	6042
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.employee.department_id > 1500	0.109649	6042
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.employee.department_id > 1500	0.108422	6042
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.employee.department_id > 1500	0.110035	6042
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.employee.department_id between 500 and 2500	0.257406	6241
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.employee.department_id between 500 and 2500	0.257984	6241
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.employee.department_id between 500 and 2500	0.258300	6241
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.employee.department_id between 500 and 2500	0.257209	6241
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.employee.gender = 0	0.135113	8003
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.employee.gender = 0	0.134045	8003
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.employee.gender = 0	0.137076	8003
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.employee.gender = 0	0.133775	8003
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.employee.gender = 1	0.058259	1997
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.employee.gender = 1	0.058581	1997
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.employee.gender = 1	0.058042	1997
+select * from test.employee join test.department on test.department.dept_id = test.employee.department_id where test.employee.gender = 1	0.058795	1997
+select * from test.location	0.019165	5000
+select * from test.location	0.018947	5000
+select * from test.location	0.020182	5000
+select * from test.location	0.018916	5000
