@@ -28,7 +28,7 @@ static bool update_histograms(MYSQL_THD thd, const char *query,const int sys_var
     }
 
     //RULE 2
-    if (sys_var_update_rule == 2 && type == STATEMENT_TYPE_INSERT){ //|| type == STATEMENT_TYPE_DELETE || type == STATEMENT_TYPE_UPDATE)){     //Rule 2 has a set number of runs between each update, defined in histogram_updater.h
+    if ((sys_var_update_rule == 2 && type == STATEMENT_TYPE_INSERT) || (sys_var_update_rule == 2 && type == STATEMENT_TYPE_DELETE)){ //|| type == STATEMENT_TYPE_DELETE || type == STATEMENT_TYPE_UPDATE)){     //Rule 2 has a set number of runs between each update, defined in histogram_updater.h
         rule_2_counter++;
         if (rule_2_counter % rule_2_no_between_updates == 0){
             return true;
@@ -49,7 +49,7 @@ static bool update_histograms(MYSQL_THD thd, const char *query,const int sys_var
         if (type == STATEMENT_TYPE_UPDATE){
             rule_3_counter += 1*1;
         }
-        if (rule_3_counter % rule_3_no_between_updates == 0){
+        if (rule_3_counter % rule_3_no_between_updates < 3){
             return true;
         }
         else {
