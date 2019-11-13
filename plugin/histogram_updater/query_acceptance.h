@@ -15,20 +15,28 @@ static bool should_query_be_distributed(const char *query) {
     return (strncmp(query, plugin_flag.c_str(), plugin_flag.length()) == 0);
 }
 
-static bool update_histograms(MYSQL_THD thd, const char *query,const int sys_var_update_rule) {
+static bool update_histograms(MYSQL_THD thd, const char *query) {
 
   //  if (!should_query_be_distributed(query)) {
   //      return false;
   // }
-    //RULE 1
+//Definitons used elsewhere
+//#define STATEMENT_TYPE_SELECT 1
+//#define STATEMENT_TYPE_UPDATE 2
+//#define STATEMENT_TYPE_INSERT 3
+//#define STATEMENT_TYPE_DELETE 4
+//#define STATEMENT_TYPE_REPLACE 5
+//#define STATEMENT_TYPE_OTHER 6
+
     int type = mysql_parser_get_statement_type(thd);
 
-    if (sys_var_update_rule == 1 && type == STATEMENT_TYPE_INSERT){     //Rule 1 means update for every insert.
+    //RULE 1
+    if (sys_var_update_rule == 1 && type == STATEMENT_TYPE_INSERT) {     //Rule 1 means update for every insert.
         return true;
     }
 
     //RULE 2
-    if ((sys_var_update_rule == 2 && type == STATEMENT_TYPE_INSERT) || (sys_var_update_rule == 2 && type == STATEMENT_TYPE_DELETE)){ //|| type == STATEMENT_TYPE_DELETE || type == STATEMENT_TYPE_UPDATE)){     //Rule 2 has a set number of runs between each update, defined in histogram_updater.h
+    else if (sys_var_update_rule == 2 && (type == STATEMENT_TYPE_INSERT || type == STATEMENT_TYPE_DELETE || type == STATEMENT_TYPE_UPDATE)){     //Rule 2 has a set number of runs between each update, defined in histogram_updater.h
         rule_2_counter++;
         if (rule_2_counter % rule_2_no_between_updates == 0){
             return true;
@@ -39,7 +47,7 @@ static bool update_histograms(MYSQL_THD thd, const char *query,const int sys_var
     }
 
     //RULE 3
-    if (sys_var_update_rule == 3 && type == STATEMENT_TYPE_INSERT){ //|| type == STATEMENT_TYPE_DELETE || type == STATEMENT_TYPE_UPDATE)){
+    else if (sys_var_update_rule == 3 && (type == STATEMENT_TYPE_INSERT || type == STATEMENT_TYPE_DELETE || type == STATEMENT_TYPE_UPDATE)){
         if (type == STATEMENT_TYPE_INSERT){
             rule_3_counter += 1*3;
         }
@@ -59,10 +67,9 @@ static bool update_histograms(MYSQL_THD thd, const char *query,const int sys_var
 
     //RULE 4
 
-
     else {      //Rule is not handled, don't update
         return false;
-    }
+        }
 
 }
 

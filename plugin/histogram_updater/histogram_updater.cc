@@ -67,7 +67,7 @@ static MYSQL_SYSVAR_INT(rule,              // Name.
                         update_rule,  // Update function.
                         0,               // Default value.
                         0,               // Min value.
-                        2,               // Max value.
+                        20,               // Max value.
                         1                // Block size.
                         );
 
@@ -177,7 +177,7 @@ static int histogram_updater_notify(MYSQL_THD thd, mysql_event_class_t event_cla
         return 0;       //if we don't match our event class or the update rule is 0 then don't do anything.
     }
 
-    if (!update_histograms(thd, event_parse->query.str,sys_var_update_rule)) {
+    if (!update_histograms(thd, event_parse->query.str)) {
         return 0;
     }
 
