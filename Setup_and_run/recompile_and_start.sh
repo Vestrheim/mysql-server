@@ -9,7 +9,7 @@ ninja
 
 cd mysql-test
 
-./mtr --start --mem --mysqld=--plugin_dir=/export/home/tmp/bygging_debug/plugin_output_directory/ --nocheck-testcase --suite=histogram_plugin --mysqld=--plugin_dir=/export/home/tmp/bygging_debug/plugin_output_directory/ --mysqld=--join-buffer-size=104857600 --mysqld=--read-buffer-size=104857600 --mysqld=--sort-buffer-size=104857600 --mysqld=--query-prealloc-size=104857600 --mysqld=--key-buffer-size=536870912 --mysqld=--autocommit=0 --gdb
+./mtr --start --mem --mysqld=--plugin_dir=/export/home/tmp/bygging_debug/plugin_output_directory/ --nocheck-testcase --suite=histogram_plugin --mysqld=--join-buffer-size=104857600 --mysqld=--read-buffer-size=104857600 --mysqld=--sort-buffer-size=104857600 --mysqld=--query-prealloc-size=104857600 --mysqld=--key-buffer-size=536870912 --gdb
 
 
 cd /dev/shm

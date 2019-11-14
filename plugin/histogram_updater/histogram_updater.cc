@@ -185,7 +185,7 @@ static int histogram_updater_notify(MYSQL_THD thd, mysql_event_class_t event_cla
 
     const char* table_name = parser_info->tables[0].name.c_str();
 
-    // connect_and_run(table_name); we used to do this, but we only want to update historams on one table, so let's simply this for ourselves
+    // connect_and_run(table_name); we used to do this, but we only want to update historams on one table, so let's simplify this for ourselves
     connect_and_run("measurement");
 
   }
