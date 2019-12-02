@@ -2,6 +2,7 @@
 
 
 --let $param_1 = "Stale histogram "
+--let $weight_params = $weight_param_1 $weight_param_2 $weight_param_3 $weight_param_4
 --disable_query_log
 
 --echo #Running the first test on the standard dataset with a stale histogram

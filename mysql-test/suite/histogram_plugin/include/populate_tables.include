@@ -1,34 +1,34 @@
 use test;
 
-Load data infile '../../std_data/server.csv' 
+Load data infile '../../../../../datasets/server.csv' 
 into table server 
 fields terminated by ','
 enclosed by '"' 
 lines terminated by '\n' 
 IGNORE 1 ROWS ;
 
-Load data infile '../../std_data/rack.csv'
+Load data infile '../../../../../datasets/rack.csv'
 into table rack
 fields terminated by ','
 enclosed by '"'
 lines terminated by '\n'
 IGNORE 1 ROWS;
 
-Load data infile '../../std_data/center.csv'
+Load data infile '../../../../../datasets/center.csv'
 into table center
 fields terminated by ','
 enclosed by '"'
 lines terminated by '\n'
 IGNORE 1 ROWS;
 
-Load data infile '../../std_data/city.csv'
+Load data infile '../../../../../datasets/city.csv'
 into table city
 fields terminated by ','
 enclosed by '"'
 lines terminated by '\n'
 IGNORE 1 ROWS;
 
-Load data infile '../../std_data/component.csv'
+Load data infile '../../../../../datasets/component.csv'
 into table component
 fields terminated by ','
 enclosed by '"'

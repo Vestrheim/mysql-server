@@ -58,6 +58,36 @@ static void update_rule(MYSQL_THD, SYS_VAR *, void *, const void *save) {
     sys_var_update_rule = *static_cast<const int *>(save);
 }
 
+/// Updater function for the status variable ...statements_between_updates.
+static void update_statements_between_updates(MYSQL_THD, SYS_VAR *, void *, const void *save) {
+    sys_var_statements_between_updates = *static_cast<const int *>(save);
+}
+
+/// Updater function for the status variable ...insert_weight.
+static void update_insert_weight(MYSQL_THD, SYS_VAR *, void *, const void *save) {
+    sys_var_insert_weight = *static_cast<const double *>(save);
+}
+
+/// Updater function for the status variable ...delete_weight.
+static void update_delete_weight(MYSQL_THD, SYS_VAR *, void *, const void *save) {
+    sys_var_delete_weight = *static_cast<const double *>(save);
+}
+
+/// Updater function for the status variable ...ratio_for_update.
+static void update_ratio_for_updates(MYSQL_THD, SYS_VAR *, void *, const void *save) {
+    sys_var_ratio_for_update = *static_cast<const double *>(save);
+}
+
+/// Updater function for the status variable ...outside_boundary_weight.
+static void update_outside_boundary_weight(MYSQL_THD, SYS_VAR *, void *, const void *save) {
+    sys_var_outside_boundary_weight = *static_cast<const double *>(save);
+}
+
+/// Updater function for the status variable ...inverse_sensitivity_to_change.
+static void update_inverse_sensitivity_to_change(MYSQL_THD, SYS_VAR *, void *, const void *save) {
+    sys_var_inverse_sensitivity_to_change = *static_cast<const int *>(save);
+}
+
 
 static MYSQL_SYSVAR_INT(rule,              // Name.
                         sys_var_update_rule,      // Variable.
@@ -67,12 +97,87 @@ static MYSQL_SYSVAR_INT(rule,              // Name.
                         update_rule,  // Update function.
                         0,               // Default value.
                         0,               // Min value.
-                        20,               // Max value.
+                        10,               // Max value.
                         1                // Block size.
                         );
 
+static MYSQL_SYSVAR_INT(statements_between_updates,              // Name.
+                        sys_var_statements_between_updates,      // Variable.
+                        PLUGIN_VAR_NOCMDARG,  // Not a command-line argument.
+                        "Tells " PLUGIN_NAME " how many statements there should be between updates in rule 2, 3 and 7",
+                        NULL,            // Check function.
+                        update_statements_between_updates,  // Update function.
+                        1000,               // Default value.
+                        0,               // Min value.
+                        INT_MAX,               // Max value.
+                        1                // Block size.
+                        );
 
-SYS_VAR *histogram_rewriter_plugin_sys_vars[] = {MYSQL_SYSVAR(rule), NULL};
+static MYSQL_SYSVAR_DOUBLE(insert_weight,              // Name.
+                        sys_var_insert_weight,      // Variable.
+                        PLUGIN_VAR_NOCMDARG,  // Not a command-line argument.
+                        "Tells " PLUGIN_NAME " how important we think insert statements are",
+                        NULL,            // Check function.
+                        update_insert_weight,  // Update function.
+                        5,               // Default value.
+                        0,               // Min value.
+                        INT_MAX,               // Max value.
+                        1                // Block size.
+                        );
+
+static MYSQL_SYSVAR_DOUBLE(delete_weight,              // Name.
+                        sys_var_delete_weight,      // Variable.
+                        PLUGIN_VAR_NOCMDARG,  // Not a command-line argument.
+                        "Tells " PLUGIN_NAME " how important we think delete statements are",
+                        NULL,            // Check function.
+                        update_delete_weight,  // Update function.
+                        3,               // Default value.
+                        0,               // Min value.
+                        INT_MAX,               // Max value.
+                        1                // Block size.
+                        );
+
+static MYSQL_SYSVAR_DOUBLE(ratio_for_update,              // Name.
+                        sys_var_ratio_for_update,      // Variable.
+                        PLUGIN_VAR_NOCMDARG,  // Not a command-line argument.
+                        "Tells " PLUGIN_NAME " what the ratio of updated rows in a table must be to force an update",
+                        NULL,            // Check function.
+                        update_ratio_for_updates,  // Update function.
+                        0.1,               // Default value.
+                        0.00001,               // Min value.
+                        1,               // Max value.
+                        1                // Block size.
+                        );
+
+static MYSQL_SYSVAR_DOUBLE(outside_boundary_weight,              // Name.
+                        sys_var_outside_boundary_weight,      // Variable.
+                        PLUGIN_VAR_NOCMDARG,  // Not a command-line argument.
+                        "Tells " PLUGIN_NAME " how important updates that are outside the boundary of a histogram are regarded",
+                        NULL,            // Check function.
+                        update_outside_boundary_weight,  // Update function.
+                        5,               // Default value.
+                        0,               // Min value.
+                        INT_MAX,               // Max value.
+                        1                // Block size.
+                        );
+
+static MYSQL_SYSVAR_INT(inverse_sensitivity_to_change,              // Name.
+                        sys_var_inverse_sensitivity_to_change,      // Variable.
+                        PLUGIN_VAR_NOCMDARG,  // Not a command-line argument.
+                        "Tells " PLUGIN_NAME " how important updates that are outside the boundary of a histogram are regarded",
+                        NULL,            // Check function.
+                        update_inverse_sensitivity_to_change,  // Update function.
+                        10000,               // Default value.
+                        0,               // Min value.
+                        INT_MAX,               // Max value.
+                        1                // Block size.
+                        );
+
+SYS_VAR *histogram_rewriter_plugin_sys_vars[] = {MYSQL_SYSVAR(rule),
+                                                 MYSQL_SYSVAR(statements_between_updates),
+                                                 MYSQL_SYSVAR(ratio_for_update),
+                                                 MYSQL_SYSVAR(outside_boundary_weight),
+                                                 MYSQL_SYSVAR(inverse_sensitivity_to_change),NULL};
 
 
 static int histogram_updater_notify(MYSQL_THD thd, mysql_event_class_t event_class,
@@ -88,6 +193,9 @@ static PSI_memory_info all_rewrite_memory[] = {
 static int plugin_init(MYSQL_PLUGIN) {
   const char *category = "sql";
   int count;
+  table_size  = -1;
+  lower_bound = -1;
+  upper_bound = -1;
   count = static_cast<int>(array_elements(all_rewrite_memory));
   rule_2_counter = 0;       //Init counters to 0
   rule_3_counter = 0;
@@ -180,11 +288,6 @@ static int histogram_updater_notify(MYSQL_THD thd, mysql_event_class_t event_cla
     if (!update_histograms(thd, event_parse->query.str)) {
         return 0;
     }
-
-    L_Parser_info *parser_info = get_tables_from_parse_tree(thd);
-
-    const char* table_name = parser_info->tables[0].name.c_str();
-
     // connect_and_run(table_name); we used to do this, but we only want to update historams on one table, so let's simplify this for ourselves
     connect_and_run("measurement");
 

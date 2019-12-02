@@ -8,6 +8,7 @@ analyze table measurement update histogram on msm_value;
 --enable_result_log
 
 --let $param_1 = "Perfect histogram "
+--let $weight_params = $weight_param_1 $weight_param_2 $weight_param_3 $weight_param_4
 --echo #Running the second test on the standard dataset with histograms
 --source suite/histogram_plugin/t/queries.test
 

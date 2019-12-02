@@ -3,7 +3,7 @@
 use test;
 --echo #Importing measurement number $file_number
 
---exec $MYSQL test < /home/svestrhe/Documents/Forprosjekt/code/mysql-server/mysql-test/std_data/measurement_$file_number.sql
+--exec $MYSQL test < /home/svestrhe/Documents/Forprosjekt/code/mysql-server/mysql-test/std_data/datasets/measurement_$file_number.sql
 
 analyze table measurement;
 analyze table server; 

@@ -21,7 +21,7 @@ UPDATE performance_schema.setup_consumers
        SET ENABLED = 'YES'
        WHERE NAME LIKE '%events_stages_%';
 
-
+SET GLOBAL general_log = 0;
 
 --echo #
 --echo #Setup the tables and import the standard data for queries to run

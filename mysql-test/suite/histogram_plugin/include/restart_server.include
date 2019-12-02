@@ -3,6 +3,11 @@
 --disable_query_log
 --disable_result_log
 
+if ($histogram_plugin_initialized){
+UNINSTALL PLUGIN histogram_updater;
+--let $histogram_plugin_initialized = 0
+}
+
 DROP DATABASE test;
 CREATE DATABASE test;
 --source include/restart_mysqld.inc

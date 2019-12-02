@@ -2,9 +2,15 @@ use test;
 
 if (!$histogram_plugin_initialized)
 {
+#Install plugin and use standard rule
 Install Plugin histogram_updater SONAME 'histogram_updater.so';
-
 SET GLOBAL histogram_updater_rule = 0;
+
+#Setup weighting variables for this run
+--eval SET GLOBAL histogram_updater_statements_between_updates = $weight_param_1
+--eval SET GLOBAL histogram_updater_ratio_for_update = $weight_param_2
+--eval SET GLOBAL histogram_updater_outside_boundary_weight = $weight_param_3
+--eval SET GLOBAL histogram_updater_inverse_sensitivity_to_change = $weight_param_4
 
 --let $histogram_plugin_initialized = 1
 }
