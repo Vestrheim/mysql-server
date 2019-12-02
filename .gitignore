@@ -2747,3 +2747,4 @@ source_downloads
 *~
 \#*\#
 \.#*
+/mysql-test/suite/histogram_plugin/run_data.txt
