@@ -97,7 +97,8 @@ static bool update_histograms(MYSQL_THD thd, const char *query) {
         if (type == STATEMENT_TYPE_UPDATE){
             rule_3_counter += 1*1;
         }
-        if (std::fmod(rule_3_counter,sys_var_statements_between_updates) < 3){
+        if (std::fmod(rule_3_counter,sys_var_statements_between_updates) < std::min(sys_var_delete_weight,sys_var_insert_weight) ){
+            //printf("HEIHEI %d\n", rule_3_counter);
             rule_3_counter = 0;
             return true;
         }
@@ -112,7 +113,7 @@ static bool update_histograms(MYSQL_THD thd, const char *query) {
             table_size = fetch_measurement_table_size();
         }
         rule_6_counter++;
-        rule_6_ratio = (table_size!=0&&table_size!=-1)? rule_6_counter/table_size : 1;
+        rule_6_ratio = (table_size!=0&&table_size!=-1)? (double)rule_6_counter/double(table_size) : 1;
         if (rule_6_ratio > sys_var_ratio_for_update){
             rule_6_counter = 0;
             table_size  =-1;

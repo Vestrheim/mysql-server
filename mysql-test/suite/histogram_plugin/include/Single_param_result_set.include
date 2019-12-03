@@ -80,7 +80,7 @@ dec $j;
 
 
 #LOGGING TO FILE#
-append_file suite/histogram_plugin/run_data.txt;
+append_file suite/histogram_plugin/$reporting_while_running_location;
 Completed base classes for this run, starting with plugin rules
 EOF
 
@@ -115,7 +115,7 @@ dec $j;
 }
 
 #LOGGING TO FILE#
-append_file suite/histogram_plugin/run_data.txt;
+append_file suite/histogram_plugin/$reporting_while_running_location;
 Completed rule 0
 EOF
 
@@ -148,46 +148,9 @@ while ($j)
 dec $j;
 }
 #LOGGING TO FILE#
-append_file suite/histogram_plugin/run_data.txt;
+append_file suite/histogram_plugin/$reporting_while_running_location;
 Completed rule 2
 EOF
-
-
-#Let's test rule 3 of our plugin
-
-#Reinitialize first! 
---source suite/histogram_plugin/include/restart_server.include
---source suite/histogram_plugin/include/queries.include
-
-#Then include the updater and set the rule parameter to output
---echo #Params before start of rule 3 $weight_param_1 $weight_param_2 $weight_param_3 $weight_param_4
---source suite/histogram_plugin/include/init_plugin.include
-SET GLOBAL histogram_updater_rule = 3;
---let $param_1 = "Plugin rule 3"
---let $weight_params = $weight_param_1 $weight_param_5 $weight_param_6
-
---let $j=$no_of_measurements
---let $file_number = 0
-
-# Importing the start period. 
---source suite/histogram_plugin/include/insert_partly_timeseries.include
-
-#Run as many times as we want our base tests to run. 
-while ($j)
-{
-#Running the next set of test. 
---source suite/histogram_plugin/include/testing_set_plugin_rules.include
-# Importing the next period. 
---source suite/histogram_plugin/include/insert_partly_timeseries.include
-dec $j;
-}
-#LOGGING TO FILE#
-append_file suite/histogram_plugin/run_data.txt;
-Completed rule 3
-EOF
-
---echo #Params after rule 3 has finished
-SHOW VARIABLES like 'histogram_updater%';
 
 
 #Let's test rule 6 of our plugin
@@ -219,81 +182,13 @@ while ($j)
 dec $j;
 }
 #LOGGING TO FILE#
-append_file suite/histogram_plugin/run_data.txt;
+append_file suite/histogram_plugin/$reporting_while_running_location;
 Completed rule 6
 EOF
 
 --echo #Params after rule 6 has finished
 SHOW VARIABLES like 'histogram_updater%';
 
-
-#Let's test rule 7 of our plugin
-
-#Reinitialize first! 
---source suite/histogram_plugin/include/restart_server.include
---source suite/histogram_plugin/include/queries.include
-
-#Then include the updater and set the rule parameter to output
---echo #Params before start of rule 7 $weight_param_1 $weight_param_2 $weight_param_3 $weight_param_4
---source suite/histogram_plugin/include/init_plugin.include
-SET GLOBAL histogram_updater_rule = 7;
---let $param_1 = "Plugin rule 7"
---let $weight_params = $weight_param_1 $weight_param_3
-
---let $j=$no_of_measurements
---let $file_number = 0
-
-# Importing the start period. 
---source suite/histogram_plugin/include/insert_partly_timeseries.include
-
-#Run as many times as we want our base tests to run. 
-while ($j)
-{
-#Running the next set of test. 
---source suite/histogram_plugin/include/testing_set_plugin_rules.include
-# Importing the next period. 
---source suite/histogram_plugin/include/insert_partly_timeseries.include
-dec $j;
-}
-#LOGGING TO FILE#
-append_file suite/histogram_plugin/run_data.txt;
-Completed rule 7
-EOF
-
-
-#Let's test rule 9 of our plugin
-
-#Reinitialize first! 
---source suite/histogram_plugin/include/restart_server.include
---source suite/histogram_plugin/include/queries.include
-
-#Then include the updater and set the rule parameter to output
---echo #Params before start of rule 9 $weight_param_1 $weight_param_2 $weight_param_3 $weight_param_4
---source suite/histogram_plugin/include/init_plugin.include
-SET GLOBAL histogram_updater_rule = 9;
---let $param_1 = "Plugin rule 9"
---let $weight_params = $weight_param_3 $weight_param_4 $weight_param_5 $weight_param_6
-
---let $j=$no_of_measurements
---let $file_number = 0
-
-# Importing the start period. 
---source suite/histogram_plugin/include/insert_partly_timeseries.include
-
-#Run as many times as we want our base tests to run. 
-while ($j)
-{
-#Running the next set of test. 
---source suite/histogram_plugin/include/testing_set_plugin_rules.include
-# Importing the next period. 
---source suite/histogram_plugin/include/insert_partly_timeseries.include
-dec $j;
-}
-#LOGGING TO FILE#
-append_file suite/histogram_plugin/run_data.txt;
-Completed rule 9
-All rules tested- testcase complete
-EOF
 
 #Cleanup
 --source suite/histogram_plugin/include/restart_server.include

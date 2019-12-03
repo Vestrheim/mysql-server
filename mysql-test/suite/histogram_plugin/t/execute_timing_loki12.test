@@ -1,0 +1,3 @@
+--let $reporting_while_running_location = run_data_loki_12.txt
+
+--source suite/histogram_plugin/t/execute_timing.test

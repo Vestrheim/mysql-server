@@ -11,6 +11,9 @@ SET GLOBAL histogram_updater_rule = 0;
 --eval SET GLOBAL histogram_updater_ratio_for_update = $weight_param_2
 --eval SET GLOBAL histogram_updater_outside_boundary_weight = $weight_param_3
 --eval SET GLOBAL histogram_updater_inverse_sensitivity_to_change = $weight_param_4
+--eval SET GLOBAL histogram_updater_insert_weight = $weight_param_5
+--eval SET GLOBAL histogram_updater_delete_weight = $weight_param_6
+
 
 --let $histogram_plugin_initialized = 1
 }
