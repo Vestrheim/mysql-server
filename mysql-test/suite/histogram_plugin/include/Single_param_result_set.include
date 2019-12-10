@@ -96,7 +96,7 @@ EOF
 --source suite/histogram_plugin/include/init_plugin.include
 SET GLOBAL histogram_updater_rule = 0;
 --let $param_1 = "Plugin rule 0"
---let $weight_params = $weight_param_1 $weight_param_2
+--let $weight_params = $weight_param_1
 
 --let $j=$no_of_measurements
 --let $file_number = 0
@@ -189,6 +189,7 @@ EOF
 --echo #Params after rule 6 has finished
 SHOW VARIABLES like 'histogram_updater%';
 
+inc $param_run_no;
 
 #Cleanup
 --source suite/histogram_plugin/include/restart_server.include

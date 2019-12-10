@@ -7,10 +7,15 @@
 #include "plugin/histogram_updater/internal_query/sql_service_context.h"
 #include "my_inttypes.h"
 #include <regex>
+#include <tuple>
+
 //#include "plugin/histogram_updater/histogram_updater.cc"
 
 #ifndef LUNDGREN_QUERY_ACCEPTANCE
 #define LUNDGREN_QUERY_ACCEPTANCE
+
+
+
 
 int fetch_measurement_table_size()
 {
@@ -36,9 +41,8 @@ int fetch_measurement_table_size()
 }
 
 
-double fetch_histogram_boundaries() {
-    double lower;
-    double upper;
+histogram_bounds fetch_histogram_boundaries() {
+    histogram_bounds new_histogram_bounds;
     Internal_query_session *session = new Internal_query_session();
     int fail = session->execute_resultless_query("USE test");
     char query[2000];
@@ -46,15 +50,15 @@ double fetch_histogram_boundaries() {
     Sql_resultset *resultset = session->execute_query(query);   //Analyze table measurement Update histograms on msm_value
     if (resultset->get_rows()>0) {
         resultset->first();
-        lower = atof(resultset->getString(2));
-        upper = atof(resultset->getString(3));
+        new_histogram_bounds.lower_bound = atof(resultset->getString(2));
+        new_histogram_bounds.upper_bound = atof(resultset->getString(3));
     }
     else{
-        lower = 0;
-        upper = 0;
+        new_histogram_bounds.lower_bound = 0;
+        new_histogram_bounds.upper_bound = 0;
     }
     delete session;
-    return lower, upper;
+    return new_histogram_bounds;
 }
 
 
@@ -141,10 +145,10 @@ static bool update_histograms(MYSQL_THD thd, const char *query) {
                 insert_value = atof(result.c_str());
             }
         }
-        if (lower_bound==-1 && upper_bound == -1){ //Intialize/ fetch new data if required
-            lower_bound, upper_bound = fetch_histogram_boundaries();
+        if (current_bounds.lower_bound==-1 && current_bounds.upper_bound == -1){ //Intialize/ fetch new data if required
+            current_bounds = fetch_histogram_boundaries();
         }
-        if (type == STATEMENT_TYPE_INSERT && (upper_bound <= insert_value || insert_value <= lower_bound)){ //statement outside range
+        if (type == STATEMENT_TYPE_INSERT && (current_bounds.upper_bound <= insert_value || insert_value <= current_bounds.lower_bound)){ //statement outside range
             rule_7_counter += 1*sys_var_outside_boundary_weight;
         }
         else  {//Statment inside range or delete statement
@@ -152,8 +156,8 @@ static bool update_histograms(MYSQL_THD thd, const char *query) {
         }
         if (std::fmod(rule_7_counter,sys_var_statements_between_updates) < sys_var_outside_boundary_weight){//Do we need to udpate?
             rule_7_counter = 0;
-            lower_bound = -1;
-            upper_bound = -1;
+            current_bounds.lower_bound = -1;
+            current_bounds.upper_bound = -1;
             return true;
         }
         else{
@@ -163,6 +167,7 @@ static bool update_histograms(MYSQL_THD thd, const char *query) {
 
     //RULE 9
     else if (sys_var_update_rule == 9 && (type == STATEMENT_TYPE_INSERT || type == STATEMENT_TYPE_DELETE || type == STATEMENT_TYPE_UPDATE)){
+        no_of_statements += 1;
         if (table_size == -1){
             table_size = fetch_measurement_table_size();
         }
@@ -180,10 +185,10 @@ static bool update_histograms(MYSQL_THD thd, const char *query) {
                 insert_value = atof(result.c_str());
             }
         }
-        if (lower_bound==-1 && upper_bound == -1){ //Intialize/ fetch new data if required
-            lower_bound, upper_bound = fetch_histogram_boundaries();
+        if (current_bounds.lower_bound==-1 && current_bounds.upper_bound == -1){ //Intialize/ fetch new data if required
+            current_bounds = fetch_histogram_boundaries();
         }
-        if (type == STATEMENT_TYPE_INSERT && (upper_bound <= insert_value || insert_value <= lower_bound)){ //statement outside range
+        if (type == STATEMENT_TYPE_INSERT && (current_bounds.upper_bound <= insert_value || insert_value <= current_bounds.lower_bound)){ //statement outside range
             rule_9_counter += 1*sys_var_outside_boundary_weight;
         } else if (type == STATEMENT_TYPE_INSERT){
             rule_9_counter += 1*sys_var_insert_weight;
@@ -193,10 +198,13 @@ static bool update_histograms(MYSQL_THD thd, const char *query) {
             rule_9_counter ++;
         }
 
-        rule_9_ratio = (table_size!=0&&table_size!=-1)? rule_9_counter/table_size : 1;
+        rule_9_ratio = (table_size!=0&&table_size!=-1)? no_of_statements/table_size : 1;
 
         if (rule_9_counter*rule_9_ratio > sys_var_inverse_sensitivity_to_change){
             rule_9_counter = 0;
+            no_of_statements = 0;
+            current_bounds.lower_bound = -1;
+            current_bounds.upper_bound = -1;
             return true;
         }
         else {

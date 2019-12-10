@@ -11,7 +11,7 @@ SET GLOBAL general_log = 0;
 --source suite/histogram_plugin/include/init_plugin.include
 SET GLOBAL histogram_updater_rule = 7;
 --let $param_1 = "Plugin rule 7"
---let $weight_params = $weight_param_1 $weight_param_3
+--let $weight_params = $weight_param_3
 
 --let $j=$no_of_measurements
 --let $file_number = 0
@@ -32,6 +32,8 @@ dec $j;
 append_file suite/histogram_plugin/$reporting_while_running_location;
 Completed rule 7
 EOF
+
+inc $param_run_no;
 
 #Cleanup
 --source suite/histogram_plugin/include/restart_server.include

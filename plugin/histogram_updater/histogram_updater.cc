@@ -196,8 +196,8 @@ static int plugin_init(MYSQL_PLUGIN) {
   const char *category = "sql";
   int count;
   table_size  = -1;
-  lower_bound = -1;
-  upper_bound = -1;
+    current_bounds.lower_bound = -1;
+    current_bounds.upper_bound = -1;
   count = static_cast<int>(array_elements(all_rewrite_memory));
   rule_2_counter = 0;       //Init counters to 0
   rule_3_counter = 0;

@@ -36,6 +36,7 @@ EOF
 --echo #Params after rule 3 has finished
 SHOW VARIABLES like 'histogram_updater%';
 
+inc $param_run_no;
 
 #Cleanup
 --source suite/histogram_plugin/include/restart_server.include

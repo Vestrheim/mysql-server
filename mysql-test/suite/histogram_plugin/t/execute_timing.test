@@ -2,7 +2,8 @@
 --echo #Master test for timing:
 --echo #
 
---let $no_of_measurements = 20
+--let $param_run_no = 1
+--let $no_of_measurements = 30
 --let $histogram_plugin_initialized = 0
 
 --disable_query_log
@@ -32,70 +33,170 @@ append_file suite/histogram_plugin/$reporting_while_running_location;
 First set of single params - Complete
 EOF
 
---let $weight_param_1 = 50000
---let $weight_param_2 = 0.25
+#Test the single param rules first !!!
+--let $weight_param_1 = 20000
+--let $weight_param_2 = 0.1
 --source suite/histogram_plugin/include/Single_param_result_set.include
 append_file suite/histogram_plugin/$reporting_while_running_location;
 Second set of single params - Complete
 EOF
 
---let $weight_param_1 = 100000
---let $weight_param_2 = 0.5
+--let $weight_param_1 = 50000
+--let $weight_param_2 = 0.25
 --source suite/histogram_plugin/include/Single_param_result_set.include
 append_file suite/histogram_plugin/$reporting_while_running_location;
 Third set of single params - Complete
 EOF
 
---let $weight_param_1 = 500000
---let $weight_param_2 = 0.9
+--let $weight_param_1 = 70000
+--let $weight_param_2 = 0.5
 --source suite/histogram_plugin/include/Single_param_result_set.include
 append_file suite/histogram_plugin/$reporting_while_running_location;
 Fourth set of single params - Complete
 EOF
 
+--let $weight_param_1 = 100000
+--let $weight_param_2 = 0.75
+--source suite/histogram_plugin/include/Single_param_result_set.include
 append_file suite/histogram_plugin/$reporting_while_running_location;
-Single param rules completed
-
-Starting multiparam with rule 3
+Fifth set of single params - Complete
 EOF
 
-
-#Now we move on to testing the multi param rules
-#Starting with rule 3
---let $weight_param_1 = 10000
---let $weight_param_5 = 5
---let $weight_param_6 = 5
---source suite/histogram_plugin/include/testing_rule_3.include
-
---let $weight_param_1 = 10000
---let $weight_param_5 = 20
---let $weight_param_6 = 5
---source suite/histogram_plugin/include/testing_rule_3.include
-
---let $weight_param_1 = 10000
---let $weight_param_5 = 5
---let $weight_param_6 = 20
---source suite/histogram_plugin/include/testing_rule_3.include
-
---let $weight_param_1 = 10000
---let $weight_param_5 = 20
---let $weight_param_6 = 20
---source suite/histogram_plugin/include/testing_rule_3.include
-
---let $weight_param_1 = 100000
---let $weight_param_5 = 20
---let $weight_param_6 = 5
---source suite/histogram_plugin/include/testing_rule_3.include
+--let $weight_param_1 = 200000
+--let $weight_param_2 = 0.9
+--source suite/histogram_plugin/include/Single_param_result_set.include
 append_file suite/histogram_plugin/$reporting_while_running_location;
-Rule 3 - Completed
+Sixth set of single params - Complete
+EOF
+
+--let $weight_param_1 = 400000
+--let $weight_param_2 = 0.95
+--source suite/histogram_plugin/include/Single_param_result_set.include
+append_file suite/histogram_plugin/$reporting_while_running_location;
+Seventh set of single params - Complete
+EOF
+
+--let $weight_param_1 = 500000
+--let $weight_param_2 = 1.00
+--source suite/histogram_plugin/include/Single_param_result_set.include
+append_file suite/histogram_plugin/$reporting_while_running_location;
+Eight set of single params - Complete
+EOF
+
+--let $weight_param_1 = 700000
+--let $weight_param_2 = 1.05
+--source suite/histogram_plugin/include/Single_param_result_set.include
+append_file suite/histogram_plugin/$reporting_while_running_location;
+Ninth set of single params - Complete
+EOF
+
+--let $weight_param_1 = 1000000
+--let $weight_param_2 = 1.50
+--source suite/histogram_plugin/include/Single_param_result_set.include
+append_file suite/histogram_plugin/$reporting_while_running_location;
+Tenth set of single params - Complete
+EOF
+
+--let $weight_param_1 = 10000000
+--let $weight_param_2 = 2
+--source suite/histogram_plugin/include/Single_param_result_set.include
+append_file suite/histogram_plugin/$reporting_while_running_location;
+Elleventh set of single params - Complete
+EOF
+
+append_file suite/histogram_plugin/$reporting_while_running_location;
+Single param rules completed
 
 Starting multiparam with rule 7
 EOF
 
 
+###Now we move on to testing the multi param rules
+###Reset param run counter
+##--let $param_run_no = 1
+###Starting with rule 3
+##--let $weight_param_1 = 400000
+##--let $weight_param_5 = 10
+##--let $weight_param_6 = 1
+##--source suite/histogram_plugin/include/testing_rule_3.include
+
+##--let $weight_param_1 = 400000
+##--let $weight_param_5 = 10
+##--let $weight_param_6 = 2
+##--source suite/histogram_plugin/include/testing_rule_3.include
+
+##--let $weight_param_1 = 400000
+##--let $weight_param_5 = 10
+##--let $weight_param_6 = 4
+##--source suite/histogram_plugin/include/testing_rule_3.include
+
+##--let $weight_param_1 = 400000
+##--let $weight_param_5 = 10
+##--let $weight_param_6 = 8
+##--source suite/histogram_plugin/include/testing_rule_3.include
+
+##--let $weight_param_1 = 400000
+##--let $weight_param_5 = 1
+##--let $weight_param_6 = 10
+##--source suite/histogram_plugin/include/testing_rule_3.include
+
+##--let $weight_param_1 = 400000
+##--let $weight_param_5 = 2
+##--let $weight_param_6 = 10
+##--source suite/histogram_plugin/include/testing_rule_3.include
+
+##--let $weight_param_1 = 400000
+##--let $weight_param_5 = 4
+##--let $weight_param_6 = 10
+##--source suite/histogram_plugin/include/testing_rule_3.include
+
+##--let $weight_param_1 = 400000
+##--let $weight_param_5 = 8
+##--let $weight_param_6 = 10
+##--source suite/histogram_plugin/include/testing_rule_3.include
+
+##--let $weight_param_1 = 400000
+##--let $weight_param_5 = 5
+##--let $weight_param_6 = 10
+##--source suite/histogram_plugin/include/testing_rule_3.include
+
+##--let $weight_param_1 = 400000
+##--let $weight_param_5 = 10
+##--let $weight_param_6 = 5
+##--source suite/histogram_plugin/include/testing_rule_3.include
+
+##--let $weight_param_1 = 400000
+##--let $weight_param_5 = 5
+##--let $weight_param_6 = 5
+##--source suite/histogram_plugin/include/testing_rule_3.include
+##append_file suite/histogram_plugin/$reporting_while_running_location;
+##Rule 3 - Completed
+##Starting multiparam with rule 7
+##EOF
+
+
 #Moving on to rule 7
---let $weight_param_1 = 10000
---let $weight_param_3 = 7
+#Reset param run counter
+--let $param_run_no = 1
+#Then set first run of params
+--let $weight_param_1 = 400000
+--let $weight_param_3 = 1
+--source suite/histogram_plugin/include/testing_rule_7.include
+
+--let $weight_param_1 = 400000
+--let $weight_param_3 = 2
+--source suite/histogram_plugin/include/testing_rule_7.include
+
+--let $weight_param_1 = 400000
+--let $weight_param_3 = 4
+--source suite/histogram_plugin/include/testing_rule_7.include
+
+--let $weight_param_1 = 400000
+--let $weight_param_3 = 5
+--source suite/histogram_plugin/include/testing_rule_7.include
+
+--let $weight_param_1 = 400000
+--let $weight_param_3 = 10
 --source suite/histogram_plugin/include/testing_rule_7.include
 append_file suite/histogram_plugin/$reporting_while_running_location;
 Rule 7 - Completed
@@ -106,8 +207,41 @@ EOF
 
 
 #Moving on to rule 9
+#Reset param run counter
+--let $param_run_no = 1
+#Then set first run of params
 --let $weight_param_3 = 5
 --let $weight_param_4 = 5000
+--let $weight_param_5 = 5
+--let $weight_param_6 = 5
+--source suite/histogram_plugin/include/testing_rule_9.include
+
+--let $weight_param_3 = 5
+--let $weight_param_4 = 10000
+--let $weight_param_5 = 5
+--let $weight_param_6 = 5
+--source suite/histogram_plugin/include/testing_rule_9.include
+
+--let $weight_param_3 = 5
+--let $weight_param_4 = 20000
+--let $weight_param_5 = 5
+--let $weight_param_6 = 5
+--source suite/histogram_plugin/include/testing_rule_9.include
+
+--let $weight_param_3 = 5
+--let $weight_param_4 = 50000
+--let $weight_param_5 = 5
+--let $weight_param_6 = 5
+--source suite/histogram_plugin/include/testing_rule_9.include
+
+--let $weight_param_3 = 5
+--let $weight_param_4 = 100000
+--let $weight_param_5 = 5
+--let $weight_param_6 = 5
+--source suite/histogram_plugin/include/testing_rule_9.include
+
+--let $weight_param_3 = 5
+--let $weight_param_4 = 200000
 --let $weight_param_5 = 5
 --let $weight_param_6 = 5
 --source suite/histogram_plugin/include/testing_rule_9.include

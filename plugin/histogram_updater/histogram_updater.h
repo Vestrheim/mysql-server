@@ -5,6 +5,12 @@
 #ifndef MYSQL_HISTOGRAM_UPDATER_H
 #define MYSQL_HISTOGRAM_UPDATER_H
 
+//Struct
+struct  histogram_bounds{
+    double lower_bound;
+    double upper_bound;
+};
+
 //System variables
 int sys_var_update_rule;    //Rule variable
 int sys_var_statements_between_updates;  //rule 2,3 between updates
@@ -31,11 +37,12 @@ int table_size;
 
 //Rule 7 variables
 double rule_7_counter;
-double upper_bound;
-double lower_bound;
 double insert_value;
+histogram_bounds current_bounds;
+
 
 //Rule 9 variables
+int no_of_statements = 0;
 double rule_9_counter;
 double rule_9_ratio;
 #endif //MYSQL_HISTOGRAM_UPDATER_H
